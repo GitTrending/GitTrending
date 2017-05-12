@@ -1,2 +1,2 @@
 # GitTrending
-An app that helps us all organize GitHub repos.
+An app that helps us organize GitHub repos.
