@@ -1,4 +1,4 @@
-* Git Trending Design Doc
+# Git Trending Design Doc
 
 This is the starting design doc for the GitConnected, or GitTrending team
 (we may need to go with GitTrending, simply because GitConnected is taken).
