@@ -48,6 +48,9 @@ Using Sequelize
 * Topic.js
 * Repo.js
 * JoinTopicRepo.js
+
+Might need these in the future, for dashboard but include might work too:
+
 * JoinUserTopic.js
 * JoinUserRepo.js
 
@@ -73,6 +76,10 @@ Our business logic needs to cover...
 * Get list of repos for topic
 * Post topic
 * Post repo to topic
+* [Create a fork using GitHub API (POST)](https://developer.github.com/v3/repos/forks/#create-a-fork)
+
+Quick note that forking the repo using API might not be as easy as it sounds.
+So it's possible we might want to just show URL in MVP if it is tricky to get working.
 
 ### Routes
 
@@ -106,12 +113,8 @@ Owner: Meggin
 
 Owner: Meggin
 
-To be decided (we are learning testing suite on Saturday).
-
-For sure, Meggin plans on testing on live version of our app,
-as it grows over time.
-That way we aren't trying to deploy at the last minute,
-but gradually deploying the app in pieces over time.
+* Nightmare to test user workflow, both log in and browse.
+* Mocha chai suites TBD.
 
 ### About us
 

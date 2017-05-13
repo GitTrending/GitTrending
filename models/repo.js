@@ -3,9 +3,9 @@
 module.exports = (sequelize, DataTypes) => {
   let Repo = sequelize.define('repo', {
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement: true
     },
     repo_name: {
       type: DataTypes.STRING,
@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [1]
       }
-    },
-    repo_img: {
-      type: DataTypes.STRING,
-      allowNull: true,
     }
   }, 
   {
