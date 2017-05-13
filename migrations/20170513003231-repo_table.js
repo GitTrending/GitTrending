@@ -21,6 +21,13 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: true,
         },
+        repo_link: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          validate: {
+            len: [1]
+          }
+        },
         repo_img: {
           type: Sequelize.STRING,
           allowNull: true,
