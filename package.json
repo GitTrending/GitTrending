@@ -20,7 +20,12 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "express-handlebars": "^3.0.0",
     "mysql": "^2.13.0",
-    "sequelize": "^3.30.4"
+    "sequelize": "^3.30.4",
+    "tachyons": "^4.7.2"
+  },
+  "devDependencies": {
+    "tachyons-flexbox": "^2.0.5"
   }
 }
