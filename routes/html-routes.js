@@ -4,6 +4,7 @@ const router = require('express').Router(),
 router
 	.get('/', query.displayRepos)
 	.post('/', query.queryRepoTopic)
-	.post('/', query.queryRepoTopic)
+	.post('/trending', query.addRepo)
+	.post('/addTopic', query.addTopic)
 
 module.exports = router;
