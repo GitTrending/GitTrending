@@ -22,11 +22,30 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       associate: function(models) {
         // An Author (foreignKey) is required or a Post can't be made
+
         Keyword.belongsTo(models.user, {
           foreignKey: {
             allowNull: false
           }
         });
+        Keyword.belongsToMany(models.repo, {
+          through: {
+            model: models.keywords_repos,
+            unique: false,
+          },
+          foreignKey: 'keywordId',
+          constraints: false
+        });
+        //Keyword.hasMany(models.repo);
+        Keyword.belongsToMany(models.topic, {
+          through: {
+            model: models.keywords_topics,
+            unique: false,
+          },
+          foreignKey: 'keywordId',
+          constraints: false
+        });
+        //Keyword.hasMany(models.topic);
       },
     },
   });
