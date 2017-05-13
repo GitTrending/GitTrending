@@ -3,7 +3,7 @@ const router = require('express').Router(),
 	db = require("../models");
 router
 	.get('/', query.displayRepos)
-	// .post('/', query.queryRepoTopic)
-	// .post('/', );
+	.post('/', query.queryRepoTopic)
+	.post('/', query.queryRepoTopic)
 
 module.exports = router;

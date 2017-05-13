@@ -2,7 +2,7 @@ const db = require('../models');
 
 // we want to greet the user using their github name
 const greetUser = (req, res) => {
-    db.User.findOne({
+    db.user.findOne({
         where: {
             name: id
         }
@@ -11,6 +11,7 @@ const greetUser = (req, res) => {
 // we want to display all repos to the "trending page" (&& display their keywords)
 const displayRepos = (req, res) => {
     db.repo.findAll().then(data => {
+        console.log(`The data is ${data}`);
         const hbsObject = {
             repos: data
         }
@@ -20,18 +21,23 @@ const displayRepos = (req, res) => {
 
 // we want to display repos associated with a specific Topic
 // how will we handle user typing in more than one topic? 
-
-// const queryRepoTopic = (res, req) => {
-    // db.Topic.findById().then(data => {
-    //     const hbsObject = {
-    //         repos: data
-    //     }
-    //     res.render('trending', hbsObject);
-    // });
-// };
+const queryRepoTopic = (req, res) => {
+    const topic = req.body.searchTopic;
+    console.log(`topic is ${topic}`);
+    db.repo.findAll({
+        where: {
+            repo_name: topic
+        }
+    }).then(data => {
+        const hbsObject = {
+            repos: data
+        }
+        res.render('trending', hbsObject);
+    });
+};
 
 module.exports = {
 	greetUser,
 	displayRepos,
-	// queryRepoTopic
+	queryRepoTopic
 }
