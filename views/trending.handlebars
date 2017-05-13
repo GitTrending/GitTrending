@@ -15,9 +15,18 @@
 	</form>
 </div>
 
+<div class='flex flex-column justify-center items-center'>
+	<h2 class='gold avenir'>Want to search for a specific topic?</h2>
+	<form action="/" method="POST">
+	    <label for="repo-name" class='gold avenir f6 b db mb2'>What Topic?</label>
+	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="searchtopic" name="searchTopic">
+	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Search Repos!</button>
+	</form>
+</div>
+
 <div class="flex justify-around">
 	<div class='flex-row flex-wrap'>
-		<h2 class='self-center green avenir'>Repo's up for grabs!</h2>
+		<h2 class='self-center green avenir'>The Repos!</h2>
 		{{#each repos}}
 			{{this.repo_name}}
 			{{this.repo_link}}
