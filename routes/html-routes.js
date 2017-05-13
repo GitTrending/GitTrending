@@ -1,10 +1,9 @@
 const router = require('express').Router(),
-	burgerController = require('../controllers/burgers_controller'),
+	query = require('../controllers/queryDatabase'),
 	db = require("../models");
-
 router
-	.get('/', burgerController.findAll)
-	.post('/addBurger', burgerController.postBurger)
-	.post('/', burgerController.eatBurger);
+	.get('/', )
+	.post('/', )
+	.post('/', );
 
 module.exports = router;

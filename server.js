@@ -5,7 +5,6 @@ const PORT = process.env.PORT || 8080;
 const htmlRouter = require('./routes/html-routes');
 const app = express();
 const db = require('./models');
-
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
 app.use(bodyParser.text());
@@ -25,8 +24,3 @@ db.sequelize.sync().then(() => {
     console.log("App listening on PORT " + PORT);
   });
 });
-
-
-
-
-
