@@ -5,6 +5,7 @@ const isAuthenticated = require('./middleware/isAuthenticated.js');
 router
 	.get('/', isAuthenticated, query.displayRepos)
 	.post('/', query.queryRepoTopic)
-	.post('/', query.queryRepoTopic)
+	.post('/trending', query.addRepo)
+	.post('/addTopic', query.addTopic)
 
 module.exports = router;
