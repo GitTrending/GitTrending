@@ -27,6 +27,24 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
           }
         });
+        Topic.belongsToMany(models.repo, {
+          through: {
+            model: models.repos_topics,
+            unique: false,
+          },
+          foreignKey: 'topicId',
+          constraints: false
+        });
+        //Topic.hasMany(models.repo);
+        Topic.belongsToMany(models.keyword, {
+          through: {
+            model: models.keywords_topics,
+            unique: false,
+          },
+          foreignKey: 'topicId',
+          constraints: false
+        });
+        //Topic.hasMany(models.keyword);
       },
     },
   });
