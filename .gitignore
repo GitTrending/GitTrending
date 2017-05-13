@@ -1,2 +1,7 @@
-node_modules
+# general
 .DS_Store
+**/.DS_Store
+/node_modules
+
+# config file
+/config/config.json
