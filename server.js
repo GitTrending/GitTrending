@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const passport = require('passport');
 const util = require('util');
@@ -37,15 +38,18 @@ app.use(passport.session());
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
 //   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.  However, since this example does not
-//   have a database of user records, the complete GitHub profile is serialized
-//   and deserialized.
+//   the user by ID when deserializing
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  console.log("serialize>>>>>", user.github_id);
+  done(null, user.github_id);
 });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+passport.deserializeUser(function(id, done) {
+  console.log("deserialize>>>>", id);
+  db.user.findOne({where:{github_id: id}})
+  .then(user=>{
+    done(null, user);
+  })
 });
 
 
@@ -60,13 +64,21 @@ passport.use(new GitHubStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
-    process.nextTick(function () {
-      
-      // To keep the example simple, the user's GitHub profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the GitHub account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
+    console.log("profile.id is >>>>", profile.id);
+    return db.user.findOne({where:{github_id:profile.id}})
+    .then(data=>{
+      console.log("data is>>>>", data);
+      if (data) {
+        return done(null,data);
+      } else {
+        return db.user.build({ github_id: profile.id }).save()
+        .then(()=>{
+          return db.user.findOne({where:{github_id:profile.id}})
+        })
+        .then(data=>{
+          return done(null,data);
+        })
+      }
     });
   }
 ));
@@ -106,6 +118,7 @@ app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
     console.log("here in callback>>>");
+    console.log("req.user is>>>>", req.user);
     res.json("you have successfully logged in!");
     //res.redirect('/account');
   });
@@ -119,8 +132,11 @@ app.get('/logout', function(req, res){
 // Syncing our sequelize models and then starting our express app
 db.sequelize.sync().then(() => {
   app.listen(PORT, () =>  {
+    /*
     db.keyword.findAll( {include: [db.repo]})
     .then(data=> console.log(">>>>", data[0].toJSON()))
+    */
     console.log("App listening on PORT " + PORT);
+
   });
 });
