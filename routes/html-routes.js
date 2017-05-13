@@ -1,8 +1,9 @@
 const router = require('express').Router(),
 	query = require('../controller/queryDatabase'),
 	db = require("../models");
+const isAuthenticated = require('./middleware/isAuthenticated.js');
 router
-	.get('/', query.displayRepos)
+	.get('/', isAuthenticated, query.displayRepos)
 	.post('/', query.queryRepoTopic)
 	.post('/', query.queryRepoTopic)
 
