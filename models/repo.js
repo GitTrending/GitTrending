@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     repo_link: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [1]
