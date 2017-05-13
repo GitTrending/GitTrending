@@ -2,6 +2,7 @@
 .DS_Store
 **/.DS_Store
 /node_modules
+yarn.lock
 
 # config file
 /config/config.json
