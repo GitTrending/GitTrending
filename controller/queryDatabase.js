@@ -1,5 +1,4 @@
 const db = require('../models');
-
 // we want to greet the user using their github name
 const greetUser = (res, req) => {
     db._____.findOne({
