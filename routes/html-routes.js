@@ -1,9 +1,9 @@
 const router = require('express').Router(),
-	query = require('../controllers/queryDatabase'),
+	query = require('../controller/queryDatabase'),
 	db = require("../models");
 router
-	.get('/', )
-	.post('/', )
-	.post('/', );
+	.get('/', query.displayRepos)
+	// .post('/', query.queryRepoTopic)
+	// .post('/', );
 
 module.exports = router;
