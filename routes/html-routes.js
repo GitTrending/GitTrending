@@ -1,13 +1,10 @@
-// *********************************************************************************
-// html-routes.js - this file offers a set of routes for sending users to the various html pages
-// *********************************************************************************
+const router = require('express').Router(),
+	burgerController = require('../controllers/burgers_controller'),
+	db = require("../models");
 
-// Dependencies
-// =============================================================
-var path = require("path");
+router
+	.get('/', burgerController.findAll)
+	.post('/addBurger', burgerController.postBurger)
+	.post('/', burgerController.eatBurger);
 
-// Routes
-// =============================================================
-module.exports = function(app) {
-
-};
+module.exports = router;
