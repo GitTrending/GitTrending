@@ -46,7 +46,7 @@ passport.deserializeUser(function(id, done) {
   console.log("deserialize>>>>", id);
   db.user.findOne({where:{github_id: id}})
   .then(user=>{
-    done(null, user);
+    done(null, user.toJSON());
   })
 });
 

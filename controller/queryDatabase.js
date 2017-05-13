@@ -14,6 +14,7 @@ const greetUser = (req, res) => {
 // we want to display a randomly selected trending topic
 const displayRepos = (req, res) => {
     // gives you all the topics with all of the repos
+    console.log("req>>> is ", req.user.id);
     db.topic.findAll({
         where: {
             topic_name: 'React'
