@@ -16,6 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     // Here we'll pass a second "classMethods" object into the define method
     // This is for any additional configuration we want to give our models
     {
+      timestamps: false,
       // We're saying that we want our burger to have one customer.
       classMethods: {
         associate: function(models) {
