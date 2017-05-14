@@ -1,42 +1,43 @@
+'use strict';
 const db = require('../models');
-
 // we want to greet the user using their github name
 const greetUser = (req, res) => {
+    const userId = req.user.id;
     db.user.findOne({
         where: {
-            name: id
+            id: userId
         }
     }).catch(err => {
         `err is ${err}`
     });
+};
+
+// function to capitalize first letter of users Topic search for cohesive UI
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
 // we want to display a randomly selected trending topic
 const displayRepos = (req, res) => {
+    // gives you all the React repos to start user off
+    db.repo.findAll({
     // gives you all the topics with all of the repos
-    console.log("req>>> is ", req.user.id);
-    db.topic.findAll({
+    //console.log("req>>> is ", req.user.id);
         where: {
-            topic_name: 'React'
+            repo_name: 'react'
         },
-        include: [db.repo]
     }).then(data => {
-        console.log(`The data is ${JSON.stringify(data)}`);
+        console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
         const hbsObject = {
-            repos: data[0].repos,
-            topic: data[0].topic_name
+            topic: 'React',
+            repos: data
         }
-        res.render('trending', hbsObject);
-    }).catch(err => {
-        `err is ${err}`
-    });
+        console.log("This is the handlebar object " + JSON.stringify(hbsObject));
+        res.render('trending', hbsObject)
+    })
 };
 
-// capitalize first letter of users Topic search for cohesive UI
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-};
-// we want to display repos associated with a specific Topic
+// we want to display repos associated with a specific Topic when searched
 const queryRepoTopic = (req, res) => {
     const topic = req.body.searchTopic;
     db.repo.findAll({
@@ -44,7 +45,10 @@ const queryRepoTopic = (req, res) => {
             repo_name: topic
         }
     }).then(data => {
+        // here we need to handle how to check whether or not a search topic is in the DB
+        // then add a similar message as below but saying "Topic not found, want to add it?"
         const hbsObject = {
+            addRepoMessage: "Oh no...there doesn't seem to be any repos!! Why not add one?",
             repos: data,
             topic: topic.capitalize()
         }
@@ -53,13 +57,13 @@ const queryRepoTopic = (req, res) => {
         `err is ${err}`
     });
 };
-// add a topic
+// users can add a topic
 const addTopic = (req, res) => {
     const addedTopic = req.body.addTopic;
     console.log(`added topic: ${addedTopic}`);
     const hbsObject = {
-        topic: addedTopic,
-        message1: `There are no repos yet, want to add a repo?`,
+        topic: addedTopic.capitalize(),
+        message1: `Oh no! There aren't any repos yet!`,
         message2: `Want to add another repo?`
     }
     db.topic.create({
@@ -71,32 +75,32 @@ const addTopic = (req, res) => {
         `err is ${err}`
     });
 };
-// add a repo
+
+// users can add a repo 
 const addRepo = (req, res) => {
     const repoLink = req.body.repoLink;
-    const repoTopic = req.body.topic;
-    // console.log(`the added repo specs: ${addedRepo}`);
+    const repo_name = req.query.topic;
+    console.log(repo_name);
     db.repo.create({
-        // THIS USER ID WILL CHANGE
         userId: 1,
-        repo_name: repoTopic,
+        repo_name: repo_name,
         repo_link: repoLink,
     }).then(data => {
-        console.log(`inserted repo data ${JSON.stringify(data)}`);
         db.repos_topics.create({
             repoId: data.id,
             topicId: 1
         }).then(data => {
-            db.topic.findAll({
+            db.repo.findAll({
                 where: {
-                    id: 1
+                    repo_name: repo_name
                 },
-                include: [db.repo]
             }).then(data => {
+                console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
                 const hbsObject = {
-                    repos: data[0].repos,
-                    topic: data[0].topic_name
+                    topic: repo_name.capitalize(),
+                    repos: data
                 }
+                console.log("This is the handlebar object " + JSON.stringify(hbsObject));
                 res.render('trending', hbsObject)
             })
         }).catch(err => {
