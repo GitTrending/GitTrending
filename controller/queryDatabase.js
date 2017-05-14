@@ -21,6 +21,8 @@ String.prototype.capitalize = function() {
 const displayRepos = (req, res) => {
     // gives you all the React repos to start user off
     db.repo.findAll({
+    // gives you all the topics with all of the repos
+    //console.log("req>>> is ", req.user.id);
         where: {
             repo_name: 'react'
         },
