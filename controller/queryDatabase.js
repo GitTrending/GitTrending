@@ -1,4 +1,6 @@
 'use strict';
+const _ = require('lodash');
+const Promise = require('bluebird');
 const db = require('../models');
 // we want to greet the user using their github name
 const greetUser = (req, res) => {
@@ -22,92 +24,124 @@ String.prototype.capitalize = function() {
 // we want to display a randomly selected trending topic
 const displayRepos = (req, res) => {
     // gives you all the React repos to start user off
-    db.repo.findAll({
-    // gives you all the topics with all of the repos
-    //console.log("req>>> is ", req.user.id);
-        where: {
-            repo_name: 'react'
-        },
-    }).then(data => {
-        console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
+    db.repo.findAll({})
+    .then(data => {
+        let selectedRepo = data[Math.round(Math.random()*(data.length-1))];
+        console.log("This is the data when you find all after adding a repo: " + JSON.stringify(selectedRepo));
         const hbsObject = {
             topic: 'React',
-            repos: data
+            repos: selectedRepo[0]
         }
         console.log("This is the handlebar object " + JSON.stringify(hbsObject));
         res.render('trending', hbsObject)
+    })
+    .catch(err =>{
+        console.log("encountered an error fetching repos")
     })
 };
 
 // we want to display repos associated with a specific Topic when searched
 const queryRepoTopic = (req, res) => {
     const topic = req.body.searchTopic;
-    db.repo.findAll({
+    db.topic.findAll( {
         where: {
-            repo_name: topic
-        }
-    }).then(data => {
-        // here we need to handle how to check whether or not a search topic is in the DB
-        // then add a similar message as below but saying "Topic not found, want to add it?"
+            topic_name: topic,
+        },
+        include: [db.repo]
+    })
+    .then(data => {
+        const topicWithRelatedRepos = data[0];
+        const repos = topicWithRelatedRepos.repos;
         const hbsObject = {
             addRepoMessage: "Oh no...there doesn't seem to be any repos!! Why not add one?",
-            repos: data,
+            repos: repos,
             topic: topic.capitalize()
-        }
+        };
         res.render('trending', hbsObject);
-    }).catch(err => {
-        `err is ${err}`
-    });
+    })
+    .catch(err => {
+        console.log(`error getting repos with selected topic >>> ${err}`);
+    })
 };
+
 // users can add a topic
 const addTopic = (req, res) => {
     const addedTopic = req.body.addTopic;
+    const gitHubUserId = _.get(req, 'session.passport.user', null);
+    console.log("req user is >>>", req.session.passport.user);
     console.log(`added topic: ${addedTopic}`);
     const hbsObject = {
         topic: addedTopic.capitalize(),
         message1: `Oh no! There aren't any repos yet!`,
         message2: `Want to add another repo?`
     }
-    db.topic.create({
-        userId: 1,
-        topic_name: addedTopic,
-    }).then(data => {
+    db.user.findOne({where: {github_id: gitHubUserId}})
+    .then(data=>{
+        const user_id = data.id;
+        return db.topic.create({
+            userId: user_id,
+            topic_name: addedTopic,
+        })
+    })
+    .then(data => {
         res.render('addTopic', hbsObject)
     }).catch(err => {
-        `err is ${err}`
+        console.log(`err adding topics >>> ${err}`);
     });
 };
 
 // users can add a repo 
 const addRepo = (req, res) => {
     const repoLink = req.body.repoLink;
-    const repo_name = req.query.topic;
-    console.log(repo_name);
-    db.repo.create({
-        userId: 1,
-        repo_name: repo_name,
-        repo_link: repoLink,
-    }).then(data => {
-        db.repos_topics.create({
-            repoId: data.id,
-            topicId: 1
-        }).then(data => {
-            db.repo.findAll({
-                where: {
-                    repo_name: repo_name
-                },
-            }).then(data => {
-                console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
-                const hbsObject = {
-                    topic: repo_name.capitalize(),
-                    repos: data
+    const topic = req.query.topic;
+    const repo_name = topic;
+    console.log("current topics is >>>>", topic);
+    const gitHubUserId = _.get(req, 'session.passport.user', null);
+    db.user.findOne({where: {github_id: gitHubUserId}})
+    // then create repo in repo table
+    .then(data => {
+        const user_id = data.id;
+        return Promise.all([
+            db.repo.create({
+                userId: user_id,
+                repo_name: repo_name,
+                repo_link: repoLink,
+            }),
+            db.topic.findOne({
+                where:{
+                    topic_name: topic
                 }
-                console.log("This is the handlebar object " + JSON.stringify(hbsObject));
-                res.render('trending', hbsObject)
             })
-        }).catch(err => {
-            `err is ${err}`
-        });
+        ])
+    })
+    // then create the repo with current topic in repos-topics join table
+   .then(data => {
+        const repoId = data[0].id;
+        const topicId = data[1].id;
+        return db.repos_topics.create({
+            repoId: repoId,
+            topicId: topicId
+        })
+    })
+    // then display all the repo 
+    .then(data => {
+        return db.repo.findAll({
+            where: {
+                repo_name: repo_name
+            },
+        })
+    })
+    .then(data => {
+        console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
+        const hbsObject = {
+            topic: repo_name.capitalize(),
+            repos: data
+        }
+        console.log("This is the handlebar object " + JSON.stringify(hbsObject));
+        res.render('trending', hbsObject)
+    }) 
+    .catch(err => {
+        console.log(`error adding repo or linking it with a topic >>> ${err}`);
     });
 }
 
