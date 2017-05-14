@@ -7,7 +7,9 @@ const greetUser = (req, res) => {
         where: {
             id: userId
         }
-    }).catch(err => {
+    })
+    .then(user => user.toJSON())
+    .catch(err => {
         `err is ${err}`
     });
 };
