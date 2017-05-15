@@ -12,8 +12,6 @@ const loginPage = (req, res) => {
 
 // signin a user in 
 const signInRedirect = (req, res) => {
-  console.log("here in callback>>>");
-  console.log("req.user is>>>>", req.user);
   //res.json("you have successfully logged in!");
   res.redirect('/');
 }
