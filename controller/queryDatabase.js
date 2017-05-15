@@ -19,21 +19,21 @@ String.prototype.capitalize = function() {
 
 // we want to display a randomly selected trending topic
 const displayRepos = (req, res) => {
-    // gives you all the React repos to start user off
-    db.repo.findAll({
-    // gives you all the topics with all of the repos
-    //console.log("req>>> is ", req.user.id);
-        where: {
-            repo_name: 'react'
-        },
-    }).then(data => {
+    // gives you all the repos in a randomly selected topic
+    db.topic.findAll({include:[db.repo]})
+    .then(data => {
+        const randomTopic = data[Math.round(Math.random()*(data.length-1))];
+        const topicName = randomTopic.topic_name;
         console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
         const hbsObject = {
-            topic: 'React',
-            repos: data
+            topic: topicName,
+            repos: randomTopic.repos
         }
         console.log("This is the handlebar object " + JSON.stringify(hbsObject));
         res.render('trending', hbsObject)
+    })
+    .catch(err => {
+        console.log(`error getting repos for a random topic>>> ${err}`)
     })
 };
 
