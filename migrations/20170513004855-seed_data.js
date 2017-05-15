@@ -18,6 +18,7 @@ module.exports = {
             repo_name: 'React',
             repo_description: 'A declarative, efficient, and flexible JavaScript library for building user interfaces',
             repo_link: 'https://github.com/facebook/react',
+            repo_score: 1,
             userId: 1
           },
         ]), 

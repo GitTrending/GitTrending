@@ -6,7 +6,8 @@
 		<ul>
 		{{#each repos}}
 			<li>Repo Keyword: {{this.repo_name}}</li>
-				Repo: {{this.repo_link}}
+				Repo Link: {{this.repo_link}}
+				Repo Score: {{this.repo_score}}
 		{{/each}}
 
 		{{#unless repos}}
