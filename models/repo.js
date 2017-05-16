@@ -59,6 +59,14 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'repoId',
           constraints: false
         });
+        Repo.belongsToMany(models.user, {
+          through: {
+            model: models.users_repos_favorite,
+            unique: false,
+          },
+          foreignKey: 'repoId',
+          constraints: false
+        });
         //Repo.hasMany(models.keyword);
       },
     },

@@ -31,6 +31,14 @@ module.exports = function(sequelize, DataTypes) {
           User.hasMany(models.keyword, {
             onDelete: "cascade"
           });
+          User.belongsToMany(models.repo, {
+            through: {
+              model: models.users_repos_favorite,
+              unique: false,
+            },
+            foreignKey: 'userId',
+            constraints: false
+          });
         }
       }
   });
