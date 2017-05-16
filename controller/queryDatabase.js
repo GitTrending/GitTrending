@@ -173,17 +173,15 @@ const updateScore = (req, res) => {
     console.log("We are getting the repo!" + repo);
     console.log("Able to get current Score: " + currentScore);
     console.log("Able to get the value to change the score by: " + updateValue);
-
-    return Promise.all([
-        // Update repo in repo table with new repo score.
-        db.repo.update({
+    
+    // Update repo in repo table with new repo score.
+    db.repo.update({
         repo_score: currentScore + updateValue
-        }, {
-            where: {
-                id: repo
-            }
-        })
-    ]).then(data => {
+    }, {
+        where: {
+            id: repo
+        }
+    }).then(data => {
         db.topic.findAll({
             where: {
                 topic_name: repo_name
@@ -191,13 +189,11 @@ const updateScore = (req, res) => {
             include:[db.repo],
             order: [[db.repo, 'repo_score', 'DESC']]
         }).then(data => {
-            console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
             const hbsObject = {
                 data: true,
                 topic: data[0].topic_name.capitalize(),
                 repos: data[0].repos
             }
-            console.log("This is the handlebar object " + JSON.stringify(hbsObject));
             res.render('trending', hbsObject)
         })
     }).catch(err => {
