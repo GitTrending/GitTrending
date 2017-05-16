@@ -12,7 +12,9 @@
 		{{#each repos}}
 			<li>Repo Description: {{this.repo_description}}</li>
 				Repo Link: {{this.repo_link}}
-        Repo Score: {{this.repo_score}}
+        		Repo Score: {{this.repo_score}}
+        		<a class="up f6 link dim ph3 pv2 mb2 dib white bg-purple">Vote UP</a>
+        		<a class="down f6 link dim ph3 pv2 mb2 dib white bg-purple">Vote DOWN</a>
 		{{/each}}
 
 		{{#unless repos}}
@@ -50,3 +52,4 @@
 	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Topic!</button>
 	</form>
 </div>
+<script type="text/javascript" src='./frontend.js'></script>

@@ -8,5 +8,6 @@ router
 	.post('/', query.queryRepoTopic)
 	.post('/trending', query.addRepo)
 	.post('/addTopic', query.addTopic)
+	.get('trending', query.updateScore)
 
 module.exports = router;
