@@ -28,6 +28,7 @@ String.prototype.capitalize = function() {
 
 // we want to display a randomly selected trending topic when the user first lands
 const displayRepos = (req, res) => {
+
     db.topic.findAll({
        include: [db.repo]
     }).then(data => {
@@ -41,6 +42,9 @@ const displayRepos = (req, res) => {
         }
         console.log("This is the handlebar object " + JSON.stringify(hbsObject));
         res.render('trending', hbsObject)
+    })
+    .catch(err => {
+        console.log(`error getting repos for a random topic>>> ${err}`)
     })
 };
 
