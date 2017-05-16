@@ -1,0 +1,21 @@
+<div class='flex flex-column justify-center items-center'>
+<div class="flex justify-around">
+	<div class='flex-row flex-wrap'>
+		<h2 class='self-center green avenir'>You added {{topic}} to our topics!!</h2>
+		{{#if repos}}
+			{{message2}}
+			{{#each repos}}
+				{{this.repo_name}}
+				{{this.repo_link}}
+			{{/each}}
+		{{/if}}
+
+		{{message1}}
+			<form action="/trending?topic={{topic}}" method="POST">
+			  <label for="burger-name" class='gold avenir f6 b db mb2'>Want to add a repo link to the {{topic}} list?</label>
+			  <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink">
+			  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Repo!</button>
+			</form>
+	</div>
+</div>
+</div>

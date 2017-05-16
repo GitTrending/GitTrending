@@ -1,16 +1,25 @@
 <!-- DON'T WORRY MAX THIS IS FOR DEBUGGING!!!! from Noel & Shengtao-->
 <div class='flex flex-column justify-center items-center'>
+<div class="flex justify-around">
+	<div class='flex-row flex-wrap'>
+		<h2 class='self-center green avenir'>The {{topic}} Repos!</h2>
+		<ul>
+		{{#each repos}}
+			<li>Repo Keyword: {{this.repo_name}}</li>
+				Repo: {{this.repo_link}}
+		{{/each}}
+
+		{{#unless repos}}
+			{{addRepoMessage}}
+		{{/unless}}
+		</ul>
+	</div>
+</div>
 	<h1 class='gold avenir'>Git Connected!!</h1>
 	<h2 class='gold avenir'>Hello {{name}}</h2>
-	<form action="/trending" method="POST">
-	    <label for="repo-name" class='gold avenir f6 b db mb2'>Repo Name?</label>
-	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="name" name="repoName">
-	  <label for="burger-name" class='gold avenir f6 b db mb2'>Repo Link?</label>
+	<form action="/trending?topic={{topic}}" method="POST">
+	  <label for="burger-name" class='gold avenir f6 b db mb2'>Want to add a repo link to the {{topic}} list?</label>
 	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink">
-	  <label for="topic" class='gold avenir f6 b db mb2'>What is the topic of your DB?</label>
-	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="topic" name="topic">
-	  <label for="keywords" class='gold avenir f6 b db mb2'>What are the keywords of your DB?</label>
-	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="keywords" name="keywords">
 	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Repo!</button>
 	</form>
 </div>
@@ -24,12 +33,11 @@
 	</form>
 </div>
 
-<div class="flex justify-around">
-	<div class='flex-row flex-wrap'>
-		<h2 class='self-center green avenir'>The Repos!</h2>
-		{{#each repos}}
-			{{this.repo_name}}
-			{{this.repo_link}}
-		{{/each}}
-	</div>
+<div class='flex flex-column justify-center items-center'>
+	<h2 class='gold avenir'>Want to add a topic?</h2>
+	<form action="/addTopic" method="POST">
+	    <label for="repo-name" class='gold avenir f6 b db mb2'>What topic do you want to add?</label>
+	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="addTopic" name="addTopic">
+	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Topic!</button>
+	</form>
 </div>
