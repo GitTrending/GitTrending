@@ -1,5 +1,10 @@
 const db = require('../models');
 
+//Render the index as the first page that the user sees
+const renderIndex = (req, res) => {
+  res.render("index");
+};
+
 // we want to greet the user using their github name
 const greetUser = (req, res) => {
     db.user.findOne({
@@ -20,7 +25,7 @@ const displayRepos = (req, res) => {
 };
 
 // we want to display repos associated with a specific Topic
-// how will we handle user typing in more than one topic? 
+// how will we handle user typing in more than one topic?
 const queryRepoTopic = (req, res) => {
     const topic = req.body.searchTopic;
     console.log(`topic is ${topic}`);
@@ -37,6 +42,7 @@ const queryRepoTopic = (req, res) => {
 };
 
 module.exports = {
+  renderIndex,
 	greetUser,
 	displayRepos,
 	queryRepoTopic
