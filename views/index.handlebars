@@ -1,0 +1,65 @@
+<!--LOGO SECTION -->
+<section id="logo-section" class="flex justify-center mt4">
+  <h1 id="logo" class="avenir mb1 f-headline">GitLists</h1>
+</section>
+
+<!-- DESCRIPTION SECTION #1 -->
+<section id="description" class="flex justify-center mb5">
+  <p class="description-text f3 tc avenir">GitLists is a user-curated platform
+    for searching and storing repositories on specific topics! </p>
+</section>
+
+<!-- BUTTONS -->
+<section id="button-section" class="flex justify-center items-center">
+    <div class="flex-direction:column">
+      <a class="connect-button hvr-bubble-bottom avenir f3 grow no-underline br-pill ph3 pv2 mb2 dib white bg-blue" href="/auth/github">Connect</a>
+    </div>
+    <div class="flex-direction:column">
+      <a class="browse-button hvr-bubble-bottom avenir f3 grow no-underline br-pill ph3 pv2 ml4 mb2 dib white bg-blue" href="/">Browse</a>
+    </div>
+</section>
+
+<!-- DISPLAY TEXTS -->
+<div class="browse-display-text f6 mt3 tc avenir white"></div>
+<div class="connect-display-text f6 mt3 tc avenir white"></div>
+
+<!-- TYPEIT PLUGIN SCRIPT && BUTTON DISPLAY SCRIPTS -->
+<script>
+
+  $(".description-text").typeIt({
+    autoStart: true,
+    speed: 30,
+    cursorSpeed: 1000
+  });
+
+  $(".browse-button").hover(() => {
+    $(".browse-display-text").text("");
+  }, () => {
+    $(".browse-display-text").text("");
+  });
+
+  $(".connect-button").hover(() => {
+    $(".connect-display-text").typeIt({
+      strings: "Connect with your Github account",
+      autoStart: true,
+      startDelay: 0,
+      speed: 10,
+      cursorSpeed: 1000
+    });
+  }, () => {
+    $(".connect-display-text").text("");
+  });
+
+  $(".browse-button").hover(() => {
+    $(".browse-display-text").typeIt({
+      strings: "Upvoting repos, forking repos, and adding topics disabled",
+      autoStart: true,
+      startDelay: 0,
+      speed: 10,
+      cursorSpeed: 1000
+    });
+  }, () => {
+    $(".connect-display-text").text("");
+  });
+
+</script>

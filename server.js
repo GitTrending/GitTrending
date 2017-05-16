@@ -20,6 +20,7 @@ app.set("view engine", "handlebars");
 app.use(body.urlencoded({ extended: false }));
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+
 // Static directory
 
 
@@ -34,6 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(__dirname + "/views"));
+
 app.use(htmlRouter);
 app.use(apiRouter);
 app.use((req,res,next)=> {
