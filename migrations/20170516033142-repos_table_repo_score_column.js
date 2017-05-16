@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.addColumn(
+    return queryInterface.changeColumn(
       'repos',
       'repo_score',
       {
@@ -10,12 +10,17 @@ module.exports = {
         defaultValue: 0
       }
     )
+
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.removeColumn(
+    return queryInterface.changeColumn(
       'repos',
-      'repo_score'
+      'repo_score',
+      {
+        type: Sequelize.INTEGER,
+        defaultValue: 1
+      }
     )
   }
 };
