@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     repo_score:  {
       type: DataTypes.INTEGER,
-      defaultValue: 1
+      defaultValue: 0
     },
     repo_link: {
       type: DataTypes.STRING,
