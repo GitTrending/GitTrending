@@ -45,10 +45,10 @@ app.use((req,res,next)=> {
 // Syncing our sequelize models and then starting our express app
 db.sequelize.sync().then(() => {
   app.listen(PORT, () =>  {
-    /*
-    db.keyword.findAll( {include: [db.repo]})
-    .then(data=> console.log(">>>>", data[0].toJSON()))
-    */
+    
+    db.user.findOne( {where: {id:3}, include: [db.repo]})
+    .then(data=> console.log(">>>>", data.toJSON()))
+
     console.log("App listening on PORT " + PORT);
   });
 });
