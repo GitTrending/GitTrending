@@ -22,10 +22,8 @@ app.use(body.urlencoded({ extended: false }));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 
 // Static directory
-
-
-
-
+// Override with POST having ?_method=PUT
+app.use(methodOverride("_method"));
 
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 // Initialize Passport!  Also use passport.session() middleware, to support

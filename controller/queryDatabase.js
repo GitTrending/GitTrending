@@ -29,7 +29,8 @@ String.prototype.capitalize = function() {
 // we want to display a randomly selected trending topic when the user first lands
 const displayRepos = (req, res) => {
     db.topic.findAll({
-       include: [db.repo]
+       include: [db.repo],
+       order: [[db.repo, 'repo_score', 'DESC']]
     }).then(data => {
         const randomTopic = data[Math.round(Math.random()*(data.length-1))];
         console.log(`random topis is: ${randomTopic}`);
@@ -58,7 +59,8 @@ const queryRepoTopic = (req, res) => {
         where: {
             topic_name: topic
         },
-        include:[db.repo]
+        include:[db.repo],
+        order: [[db.repo, 'repo_score', 'DESC']]
     }).then(data => {
         console.log(`THE DATA IS: ${JSON.stringify(data)}`);
         if (data){
@@ -75,7 +77,7 @@ const queryRepoTopic = (req, res) => {
         } else {
             const hbsObject = {
                 data: false,
-                noTopic:`Oh no ${topic.capitalize()} isn't a topic yet! Why not add it below?`,
+                noTopic:"Oh no ${topic.capitalize()} isn't a topic yet! Why not add it below?",
                 // repos: data.repos,
                 // topic: topic.capitalize()
             }
@@ -92,8 +94,8 @@ const addTopic = (req, res) => {
     console.log(`added topic: ${addedTopic}`);
     const hbsObject = {
         topic: addedTopic.capitalize(),
-        message1: `Oh no! There aren't any repos yet!`,
-        message2: `Want to add another repo?`
+        message1: "Oh no! There aren't any repos yet!",
+        message2: "Want to add another repo?"
     }
     db.topic.create({
         userId: 1,
@@ -134,7 +136,8 @@ const addRepo = (req, res) => {
             where: {
                 topic_name: topic
             },
-            include:[db.repo]
+            include:[db.repo],
+            order: [[db.repo, 'repo_score', 'DESC']]
         }).then(data => {
             console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
             const hbsObject = {
@@ -150,15 +153,57 @@ const addRepo = (req, res) => {
     });
 }
 
+// We want to keep score based on user up and down votes.
+// Still need to connect score to user.
+// We shouldn't let user score up or down more than once in a row.
+// Also, there's something strange happening with async.
+// The score is updating correctly in the database, and will display with full refresh.
+// But the callback functionality doesn't seem to pick up updated score
+// When finding the repos for the topic again..
+// I re-used similar approach to refreshing repos, and thought it would work.
+// But there's something buggy in the refresh. I'd say Noel can fix this fast!
 const updateScore = (req, res) => {
-    const vote = req.params.vote
-    const repoId = req.params.id
-    if (vote === 'up'){
-        console.log(`up`);
-    } else {
-        console.log(`down`);
-    }
-}
+    const repo = req.params.id;
+
+    const currentScore = parseInt(req.params.score);
+
+    const updateValue = parseInt(req.body.scorechange);
+
+    // We can remove these as part of cleaning up code.
+    console.log("We are getting the repo!" + repo);
+    console.log("Able to get current Score: " + currentScore);
+    console.log("Able to get the value to change the score by: " + updateValue);
+
+    return Promise.all([
+        // Update repo in repo table with new repo score.
+        db.repo.update({
+        repo_score: currentScore + updateValue
+        }, {
+            where: {
+                id: repo
+            }
+        })
+    ]).then(data => {
+        db.topic.findAll({
+            where: {
+                topic_name: repo_name
+            },
+            include:[db.repo],
+            order: [[db.repo, 'repo_score', 'DESC']]
+        }).then(data => {
+            console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
+            const hbsObject = {
+                data: true,
+                topic: data[0].topic_name.capitalize(),
+                repos: data[0].repos
+            }
+            console.log("This is the handlebar object " + JSON.stringify(hbsObject));
+            res.render('trending', hbsObject)
+        })
+    }).catch(err => {
+        `err is ${err}`
+    });
+};
 
 module.exports = {
     renderIndex,
