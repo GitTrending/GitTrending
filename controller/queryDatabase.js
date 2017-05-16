@@ -28,7 +28,6 @@ String.prototype.capitalize = function() {
 
 // we want to display a randomly selected trending topic when the user first lands
 const displayRepos = (req, res) => {
-
     db.topic.findAll({
        include: [db.repo]
     }).then(data => {
@@ -151,11 +150,22 @@ const addRepo = (req, res) => {
     });
 }
 
+const updateScore = (req, res) => {
+    const vote = req.params.vote
+    const repoId = req.params.id
+    if (vote === 'up'){
+        console.log(`up`);
+    } else {
+        console.log(`down`);
+    }
+}
+
 module.exports = {
     renderIndex,
     greetUser,
     displayRepos,
     queryRepoTopic,
     addTopic,
-    addRepo
+    addRepo,
+    updateScore
 };

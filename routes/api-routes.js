@@ -3,6 +3,8 @@ const router = require('express').Router();
 const auth = require('../controller/authenticate.js');
 const db = require("../models");
 const passport = require('../controller/passport.config.js');
+const query = require('../controller/queryDatabase');
+
 router
   .get('/login', auth.loginPage)
   .get('/auth/github',
@@ -13,6 +15,7 @@ router
     passport.authenticate('github', { failureRedirect: '/login' }),
     auth.signInRedirect
   )
-  .get('/logout', auth.logout);
+  .get('/logout', auth.logout)
+  .post('/trending/:vote/:id', query.updateScore)
 
 module.exports = router;
