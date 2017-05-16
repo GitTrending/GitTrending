@@ -3,6 +3,7 @@ const router = require('express').Router(),
 	db = require("../models");
 const isAuthenticated = require('./middleware/isAuthenticated.js');
 router
+	.get('/index', query.renderIndex)
 	.get('/', isAuthenticated, query.displayRepos)
 	.post('/', query.queryRepoTopic)
 	.post('/trending', query.addRepo)

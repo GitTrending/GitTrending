@@ -1,5 +1,11 @@
 'use strict';
 const db = require('../models');
+
+//Render the index as the first page that the user sees
+const renderIndex = (req, res) => {
+  res.render("index");
+};
+
 // we want to greet the user using their github name
 const greetUser = (req, res) => {
     const userId = req.user.id;
@@ -37,7 +43,10 @@ const displayRepos = (req, res) => {
     })
 };
 
+// we want to display repos associated with a specific Topic
+// how will we handle user typing in more than one topic?
 // we want to display repos associated with a specific Topic when searched
+
 const queryRepoTopic = (req, res) => {
     const topic = req.body.searchTopic;
     db.repo.findAll({
@@ -76,7 +85,7 @@ const addTopic = (req, res) => {
     });
 };
 
-// users can add a repo 
+// users can add a repo
 const addRepo = (req, res) => {
     const repoLink = req.body.repoLink;
     const repo_name = req.query.topic;
@@ -110,6 +119,7 @@ const addRepo = (req, res) => {
 }
 
 module.exports = {
+    renderIndex,
     greetUser,
     displayRepos,
     queryRepoTopic,
