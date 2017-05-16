@@ -9,6 +9,7 @@ const renderIndex = (req, res) => {
 };
 
 // we want to greet the user using their github name
+// we wtill need to get this working
 const greetUser = (req, res) => {
     const userId = req.user.id;
     db.user.findOne({
@@ -25,9 +26,8 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-// we want to display a randomly selected trending topic
+// we want to display a randomly selected trending topic when the user first lands
 const displayRepos = (req, res) => {
-    // gives you all the React repos to start user off
     db.topic.findAll({
        include: [db.repo]
     }).then(data => {
@@ -105,12 +105,14 @@ const addTopic = (req, res) => {
 // users can add a repo
 const addRepo = (req, res) => {
     const repoLink = req.body.repoLink;
+    const repoDesc = req.body.repoDesc;
     const topic = req.query.topic;
     return Promise.all([
         db.repo.create({
             userId: 1,
             repo_name: topic,
             repo_link: repoLink,
+            repo_description: repoDesc
         }),
         db.topic.findOne({
             where: {
