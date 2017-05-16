@@ -2,7 +2,12 @@
 <div class='flex flex-column justify-center items-center'>
 <div class="flex justify-around">
 	<div class='flex-row flex-wrap'>
-		<h2 class='self-center green avenir'>The {{topic}} Repos!</h2>
+		{{#if data}}
+			<h2 class='self-center green avenir'>The {{topic}} Repos!</h2>
+		{{else}}
+		<h2 class='self-center green avenir'>{{noTopic}}</h2>
+		{{/if}}
+
 		<ul>
 		{{#each repos}}
 			<li>Repo Keyword: {{this.repo_name}}</li>
@@ -11,6 +16,7 @@
 
 		{{#unless repos}}
 			{{addRepoMessage}}
+			{{addTopicMessage}}
 		{{/unless}}
 		</ul>
 	</div>
@@ -20,6 +26,7 @@
 	<form action="/trending?topic={{topic}}" method="POST">
 	  <label for="burger-name" class='gold avenir f6 b db mb2'>Want to add a repo link to the {{topic}} list?</label>
 	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink">
+	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc">
 	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Repo!</button>
 	</form>
 </div>
