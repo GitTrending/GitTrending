@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    repo_score:  {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
     repo_link: {
       type: DataTypes.STRING,
       allowNull: false,
