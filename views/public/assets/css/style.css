@@ -5,30 +5,62 @@
 
 /* Some default document settings. */
 body {
-
+  background-color: #262626;
 }
 
-/* 
+#logo {
+  color: #ffffff;
+}
+
+#description {
+  margin-left: 25vw;
+  margin-right: 25vw;
+}
+
+.description-text {
+  color: #ffffff;
+}
+
+.connect-button:hover {
+  color: orange;
+}
+
+.browse-button:hover {
+  color: orange;
+}
+
+/*
   These rules take effect when the browser's width
   is 769px or more.
 */
 @media screen and (max-width: 980px) {
 
 }
-	
 
-/* 
+
+/*
   These rules take effect when the browser's width
   is 641px or more.
 */
 @media screen and (max-width: 768px) {
+  .description-text {
+    font-size: 1.5rem;
+  }
+
+  #description {
+    margin-left: 10vw;
+    margin-right: 10vw;
+  }
+
 
 }
 
-/* 
+/*
   These rules take effect when the browser's width
   is 640px or less.
 */
 @media screen and (max-width: 640px) {
-	  
+  #logo {
+    font-size: 5rem;
+  }
 }
