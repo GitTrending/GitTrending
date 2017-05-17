@@ -88,19 +88,34 @@ const queryRepoTopic = (req, res) => {
         console.log(`err is ${err}`);
     });
 };
-// users can add a topic
+
+// Users can add a topic.
 const addTopic = (req, res) => {
+    
     const addedTopic = req.body.addTopic;
     console.log(`added topic: ${addedTopic}`);
+
     const hbsObject = {
         topic: addedTopic.capitalize(),
         message1: "Oh no! There aren't any repos yet!",
         message2: "Want to add another repo?"
-    }
+    };
+
+    // Add new topic to database and render page.
+    // Pass in the response, the added topic, and the handlebars object.
+    const newTopic = createTopic(res, addedTopic, hbsObject);
+
+};
+
+// Add new topic to database and render page.
+// Pass in the response, the added topic, and the handlebars object.
+const createTopic = (res, addedTopic, hbsObject) => {
     db.topic.create({
         userId: 1,
         topic_name: addedTopic,
     }).then(data => {
+        
+        // Render addTopic page for the response.
         res.render('addTopic', hbsObject)
     }).catch(err => {
         `err is ${err}`
