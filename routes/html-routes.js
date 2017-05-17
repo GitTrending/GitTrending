@@ -8,7 +8,6 @@ router
 	.post('/', query.queryRepoTopic)
 	.post('/trending', query.addRepo)
 	.post('/addTopic', query.addTopic)
-
 	// Pass in selected repo score and selected repo ID to update score.
 	// We could, in theory, add more to the controller to get the score, then update it.
 	// But I thought it would be nice to use the score we have in front-end

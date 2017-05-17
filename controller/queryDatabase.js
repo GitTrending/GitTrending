@@ -5,9 +5,8 @@ const db = require('../models');
 
 //Render the index as the first page that the user sees
 const renderIndex = (req, res) => {
-  res.render("index");
+    res.render("index");
 };
-
 // we want to greet the user using their github name
 // we wtill need to get this working
 const greetUser = (req, res) => {
@@ -29,23 +28,25 @@ String.prototype.capitalize = function() {
 // we want to display a randomly selected trending topic when the user first lands
 const displayRepos = (req, res) => {
     db.topic.findAll({
-       include: [db.repo],
-       order: [[db.repo, 'repo_score', 'DESC']]
-    }).then(data => {
-        const randomTopic = data[Math.round(Math.random()*(data.length-1))];
-        console.log(`random topis is: ${randomTopic}`);
-        console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
-        const hbsObject = {
-            data: true,
-            topic: randomTopic.topic_name,
-            repos: randomTopic.repos
-        }
-        console.log("This is the handlebar object " + JSON.stringify(hbsObject));
-        res.render('trending', hbsObject)
-    })
-    .catch(err => {
-        console.log(`error getting repos for a random topic>>> ${err}`)
-    })
+            include: [db.repo],
+            order: [
+                [db.repo, 'repo_score', 'DESC']
+            ]
+        }).then(data => {
+            const randomTopic = data[Math.round(Math.random() * (data.length - 1))];
+            console.log(`random topis is: ${randomTopic}`);
+            console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
+            const hbsObject = {
+                data: true,
+                topic: randomTopic.topic_name,
+                repos: randomTopic.repos
+            }
+            console.log("This is the handlebar object " + JSON.stringify(hbsObject));
+            res.render('trending', hbsObject)
+        })
+        .catch(err => {
+            console.log(`error getting repos for a random topic>>> ${err}`)
+        })
 };
 
 // we want to display repos associated with a specific Topic
@@ -59,13 +60,15 @@ const queryRepoTopic = (req, res) => {
         where: {
             topic_name: topic
         },
-        include:[db.repo],
-        order: [[db.repo, 'repo_score', 'DESC']]
+        include: [db.repo],
+        order: [
+            [db.repo, 'repo_score', 'DESC']
+        ]
     }).then(data => {
         console.log(`THE DATA IS: ${JSON.stringify(data)}`);
-        if (data){
-        // here we need to handle how to check whether or not a search topic is in the DB
-        // then add a similar message as below but saying "Topic not found, want to add it?"
+        if (data) {
+            // here we need to handle how to check whether or not a search topic is in the DB
+            // then add a similar message as below but saying "Topic not found, want to add it?"
             const hbsObject = {
                 data: true,
                 addRepoMessage: "Oh no...there doesn't seem to be any repos!! Why not add one?",
@@ -77,7 +80,7 @@ const queryRepoTopic = (req, res) => {
         } else {
             const hbsObject = {
                 data: false,
-                noTopic:"Oh no ${topic.capitalize()} isn't a topic yet! Why not add it below?",
+                noTopic: "Oh no ${topic.capitalize()} isn't a topic yet! Why not add it below?",
                 // repos: data.repos,
                 // topic: topic.capitalize()
             }
@@ -91,7 +94,7 @@ const queryRepoTopic = (req, res) => {
 
 // Users can add a topic.
 const addTopic = (req, res) => {
-    
+
     const addedTopic = req.body.addTopic;
     console.log(`added topic: ${addedTopic}`);
 
@@ -114,7 +117,7 @@ const createTopic = (res, addedTopic, hbsObject) => {
         userId: 1,
         topic_name: addedTopic,
     }).then(data => {
-        
+
         // Render addTopic page for the response.
         res.render('addTopic', hbsObject)
     }).catch(err => {
@@ -151,8 +154,10 @@ const addRepo = (req, res) => {
             where: {
                 topic_name: topic
             },
-            include:[db.repo],
-            order: [[db.repo, 'repo_score', 'DESC']]
+            include: [db.repo],
+            order: [
+                [db.repo, 'repo_score', 'DESC']
+            ]
         }).then(data => {
             console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
             const hbsObject = {
@@ -167,25 +172,24 @@ const addRepo = (req, res) => {
         `err is ${err}`
     });
 }
-
-// We want to keep score based on user up and down votes.
-// Still need to connect score to user.
-// We shouldn't let user score up or down more than once in a row.
-// Also, there's something strange happening with async.
-// The score is updating correctly in the database, and will display with full refresh.
-// But the callback functionality doesn't seem to pick up updated score
-// When finding the repos for the topic again..
-// I re-used similar approach to refreshing repos, and thought it would work.
-// But there's something buggy in the refresh. I'd say Noel can fix this fast!
-const updateScore = (req, res) => {
+const updateScore = ((req, res) => {
     const repo = req.params.id;
     const topic = req.params.topic;
     const initialRepoScore = req.params.score;
     const intRepoScore = parseInt(initialRepoScore);
     const initialValue = req.body.scorechange
     const updateIntValue = parseInt(initialValue);
-    // We can remove these as part of cleaning up code.
-    // Update repo in repo table with new repo score.
+    console.log("USER IS: " + req.user);
+    // db.users_repos_favorite.findOne({
+    //     where: {
+    //         userId: req.user.id,
+    //         repoId: repo
+    //     }
+    // }).then(data => {
+    //     if (data){
+    //         data.repo_upvoted
+    //     }
+    // })
     db.repo.update({
         repo_score: intRepoScore + updateIntValue
     }, {
@@ -197,8 +201,10 @@ const updateScore = (req, res) => {
             where: {
                 topic_name: topic
             },
-            include:[db.repo],
-            order: [[db.repo, 'repo_score', 'DESC']]
+            include: [db.repo],
+            order: [
+                [db.repo, 'repo_score', 'DESC']
+            ]
         }).then(data => {
             const hbsObject = {
                 data: true,
@@ -210,7 +216,7 @@ const updateScore = (req, res) => {
     }).catch(err => {
         `err is ${err}`
     });
-};
+})
 
 module.exports = {
     renderIndex,
