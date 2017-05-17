@@ -16,6 +16,7 @@ router
     auth.signInRedirect
   )
   .get('/logout', auth.logout)
-  .post('/trending/:vote/:id', query.updateScore)
+  // /trending/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}
+  .post('/trending/:topic/:score/:id', query.updateScore)
 
 module.exports = router;

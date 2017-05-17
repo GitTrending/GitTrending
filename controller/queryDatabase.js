@@ -179,19 +179,15 @@ const addRepo = (req, res) => {
 // But there's something buggy in the refresh. I'd say Noel can fix this fast!
 const updateScore = (req, res) => {
     const repo = req.params.id;
-
-    const currentScore = parseInt(req.params.score);
-
-    const updateValue = parseInt(req.body.scorechange);
-
+    const topic = req.params.topic;
+    const initialRepoScore = req.params.score;
+    const intRepoScore = parseInt(initialRepoScore);
+    const initialValue = req.body.scorechange
+    const updateIntValue = parseInt(initialValue);
     // We can remove these as part of cleaning up code.
-    console.log("We are getting the repo!" + repo);
-    console.log("Able to get current Score: " + currentScore);
-    console.log("Able to get the value to change the score by: " + updateValue);
-    
     // Update repo in repo table with new repo score.
     db.repo.update({
-        repo_score: currentScore + updateValue
+        repo_score: intRepoScore + updateIntValue
     }, {
         where: {
             id: repo
@@ -199,7 +195,7 @@ const updateScore = (req, res) => {
     }).then(data => {
         db.topic.findAll({
             where: {
-                topic_name: repo_name
+                topic_name: topic
             },
             include:[db.repo],
             order: [[db.repo, 'repo_score', 'DESC']]
