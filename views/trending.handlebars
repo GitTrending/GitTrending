@@ -13,13 +13,13 @@
 			<li>Repo Description: {{this.repo_description}}</li>
 				Repo Link: {{this.repo_link}} || 
 				Repo Score: {{this.repo_score}}
-			 <form action="/trending/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}" method="POST">
+			 <form class='voting' action="/trending/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}" method="POST">
                 <input id="up" type="hidden" name="scorechange" value="1">
                 <button class="up f6 link dim ph3 pv2 mb2 dib white bg-purple" type="submit">Vote UP</button>
               </form>
-              <form action="/trending/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}" method="POST">
-                <input id="down" type="hidden" name="scorechange" value="-1">
-                <button class="down f6 link dim ph3 pv2 mb2 dib white bg-purple" type="submit">Vote DOWN</button>
+              <form class='voting' action="/trending/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}" method="POST">
+                <input id="down" type="hidden" name="scorechange" value="-1 & {{this.repo_score}}">
+                <button class="down f6 link dim ph3 pv2 mb2 dib white bg-purple" id='downVote' type="submit">Vote DOWN</button>
               </form>
 		{{/each}}
 
@@ -58,3 +58,5 @@
 	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Topic!</button>
 	</form>
 </div>
+
+<script type="text/javascript" src='/frontend.js'></script>
