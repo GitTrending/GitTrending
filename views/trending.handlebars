@@ -11,13 +11,13 @@
 		<ul class='gold'>
 		{{#each repos}}
 			<li>Repo Description: {{this.repo_description}}</li>
-				Repo Link: {{this.repo_link}}
+				Repo Link: {{this.repo_link}} || 
 				Repo Score: {{this.repo_score}}
-			 <form action="/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}" method="POST">
+			 <form action="/trending/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}" method="POST">
                 <input id="up" type="hidden" name="scorechange" value="1">
                 <button class="up f6 link dim ph3 pv2 mb2 dib white bg-purple" type="submit">Vote UP</button>
               </form>
-              <form action="/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}" method="POST">
+              <form action="/trending/{{this.repo_name}}/{{this.repo_score}}/{{this.id}}" method="POST">
                 <input id="down" type="hidden" name="scorechange" value="-1">
                 <button class="down f6 link dim ph3 pv2 mb2 dib white bg-purple" type="submit">Vote DOWN</button>
               </form>
