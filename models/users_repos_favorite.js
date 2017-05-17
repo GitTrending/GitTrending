@@ -13,6 +13,16 @@ module.exports = (sequelize, DataTypes) => {
     repoId: {
       type: DataTypes.INTEGER,
     },
+    repo_upvoted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue:false
+    },
+    repo_downvoted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue:false
+    }
   }, {
     timestamps: false,
     freezeTableName: true,
