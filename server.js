@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
@@ -13,6 +13,7 @@ const app = express();
 const db = require('./models');
 
 // Sets up the Express app to handle data parsing
+app.use(cookieParser());
 app.use(body.json());
 app.use(body.text());
 app.use(body.json({ type: "application/vnd.api+json" }));
