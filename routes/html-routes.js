@@ -13,6 +13,6 @@ router
 	// But I thought it would be nice to use the score we have in front-end
 	// And pass to the back-end to reduce runtime server calls.
 	// Note to add in trending to path, after I make sure this works.
-	.post('/:repo_name/:score/:id', query.updateScore)
+	.post('/trending/:topic_name/:repo_id', query.updateScore)
 
 module.exports = router;
