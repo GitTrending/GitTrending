@@ -28,7 +28,7 @@ const createTopic = (res, addedTopic, hbsObject) => {
         userId: 1,
         topic_name: addedTopic,
     }).then(data => {
-        // Render addTopic page for the response.
+        // Render addTopic page for the response
         res.render('addTopic', hbsObject)
     }).catch(err => {
         `err is ${err}`
@@ -53,6 +53,8 @@ const addRepo = (req, res) => {
             }
         })
     ]).then(data => {
+        // the data returned is an array with two indicies [repoData, topicdata]
+        // there are nested objects with in each index
         const repoId = data[0].id;
         const topicId = data[1].id;
         return db.repos_topics.create({
