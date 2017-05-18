@@ -7,45 +7,42 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-//Render the index as the first page that the user sees
+// Render the index as the first page that the user sees
+// last bug for business logic
+// we need to figure out why this page doesn;t render before being 
+// prompted to sign into github
 const renderIndex = (req, res) => {
     res.render("index");
-};
-// we want to greet the user using their github name
-// we wtill need to get this working
-const greetUser = (req, res) => {
-    const userId = req.user.id;
-    db.user.findOne({
-        where: {
-            id: userId
-        }
-    }).catch(err => {
-        `err is ${err}`
-    });
 };
 
 // we want to display a randomly selected trending topic when the user first lands
 const displayRepos = (req, res) => {
+    return Promise.all([
     db.topic.findAll({
             include: [db.repo],
             order: [
                 [db.repo, 'repo_score', 'DESC']
             ]
-        }).then(data => {
-            const randomTopic = data[Math.round(Math.random() * (data.length - 1))];
-            console.log(`random topis is: ${randomTopic}`);
-            console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
-            const hbsObject = {
-                data: true,
-                topic: randomTopic.topic_name,
-                repos: randomTopic.repos
-            }
-            console.log("This is the handlebar object " + JSON.stringify(hbsObject));
-            res.render('trending', hbsObject)
-        })
-        .catch(err => {
-            console.log(`error getting repos for a random topic>>> ${err}`)
-        })
+        }),
+    db.user.findOne({
+        where: {
+            id: req.user.id
+        }
+    }), 
+    ]).then(data => {
+        // the data returned is an array with 2 indices  -> [topicsData, userData]
+        const randomTopic = data[0][Math.round(Math.random() * (data.length - 1))];
+        const hbsObject = {
+            data: true,
+            topic: randomTopic.topic_name,
+            repos: randomTopic.repos,
+            name: data[1].displayName
+        }
+        res.render('trending', hbsObject)
+    })
+    .catch(err => {
+        console.log(`error getting repos for a random topic>>> ${err}`)
+    })
 };
 
 // we want to display repos associated with a specific Topic when searched
@@ -61,6 +58,7 @@ const queryRepoTopic = (req, res) => {
             [db.repo, 'repo_score', 'DESC']
         ]
     }).then(data => {
+        // the data returned is an object, the 'repos' property contains an array of repos. This array contains objects
         console.log(`THE DATA IS: ${JSON.stringify(data)}`);
         if (data) {
             const hbsObject = {
@@ -69,7 +67,6 @@ const queryRepoTopic = (req, res) => {
                 repos: data.repos,
                 topic: topic.capitalize()
             }
-            console.log(`This is the HANDLEBAR ${JSON.stringify(hbsObject)}`);
             res.render('trending', hbsObject);
         } else {
             const hbsObject = {
@@ -83,10 +80,8 @@ const queryRepoTopic = (req, res) => {
     });
 };
 
-
 module.exports = {
     renderIndex,
-    greetUser,
     displayRepos,
     queryRepoTopic,
 };
