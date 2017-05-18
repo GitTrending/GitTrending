@@ -29,6 +29,7 @@
     "lodash": "^4.17.4",
     "method-override": "^2.3.8",
     "mysql": "^2.13.0",
+    "nightmare": "^2.10.0",
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
     "sequelize": "^3.30.4",
