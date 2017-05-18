@@ -26,6 +26,7 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.2",
     "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
     "method-override": "^2.3.8",
     "mysql": "^2.13.0",
     "passport": "^0.3.2",

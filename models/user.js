@@ -12,6 +12,22 @@ module.exports = function(sequelize, DataTypes) {
         len: [1]
       }
     },
+    displayName: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    profileUrl: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, 
     // Here we'll pass a second "classMethods" object into the define method
     // This is for any additional configuration we want to give our models

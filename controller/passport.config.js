@@ -1,4 +1,5 @@
 const passport = require("passport");
+const _ = require('lodash');
 const util = require('util');
 const GitHubStrategy = require('passport-github2').Strategy;
 var db = require("../models");
@@ -15,12 +16,19 @@ passport.use(new GitHubStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
+    console.log("profile is >>>>", profile)
     return db.user.findOne({where:{github_id:profile.id}})
     .then(data=>{
       if (data) {
         return done(null,data);
       } else {
-        return db.user.build({ github_id: profile.id }).save()
+        return db.user.build({ 
+          github_id: profile.id,
+          displayName: profile.displayName,
+          username: profile.username,
+          profileUrl: profile.profileUrl,
+          email: _.get(profile, ['emails', 0, 'value'], null)
+        }).save()
         .then(()=>{
           return db.user.findOne({where:{github_id:profile.id}})
         })
