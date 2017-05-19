@@ -7,10 +7,7 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-// Render the index as the first page that the user sees
-// last bug for business logic
-// we need to figure out why this page doesn;t render before being 
-// prompted to sign into github
+// render first page
 const renderIndex = (req, res) => {
     res.render("index");
 };
@@ -30,11 +27,8 @@ const displayRepos = (req, res) => {
             }
         })
     ]).then(data => {
-        console.log(`LENGTH: ${data[0][1].repos.length}`);
-        // console.log(`DATA: ${JSON.stringify(data)}`);
         const index = Math.round(Math.random() * (data[0].length - 1));
         const randomTopic = data[0][index];
-        console.log(`RANDOM TOPIC ${JSON.stringify(randomTopic)}`);
         if (randomTopic.repos.length === 0) {
             console.log('I am running!!');
             const hbsObject = {
@@ -102,7 +96,16 @@ const queryRepoTopic = (req, res) => {
             }
         })
     ]).then(data => {
-        console.log(`no repos: ${JSON.stringify(data)}`);
+        if (data[0] === null) {
+            console.log('FIRST CONDITION');
+            const hbsObject = {
+                data: false,
+                topic: topic.capitalize(),
+                noTopic: `${topic.capitalize()} doesn't exsist! Why not add one?`,
+                name: data[1].displayName
+            }
+            res.render('trending', hbsObject);
+        }
         if (data[0].repos.length === 0) {
             console.log('I am running!!');
             const hbsObject = {
