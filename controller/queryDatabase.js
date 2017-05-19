@@ -1,3 +1,4 @@
+
 'use strict';
 const Promise = require('bluebird');
 const db = require('../models');
@@ -101,7 +102,7 @@ const queryRepoTopic = (req, res) => {
             const hbsObject = {
                 data: false,
                 topic: topic.capitalize(),
-                noTopic: `${topic.capitalize()} doesn't exsist! Why not add one?`,
+                noTopic: `${topic.capitalize()} doesn't exsist! Why not add it?`,
                 name: data[1].displayName
             }
             res.render('trending', hbsObject);
