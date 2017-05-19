@@ -34,9 +34,9 @@
 		</div>
 		<form action="/trending?topic={{topic}}" method="POST" class="lh-copy measure center f6 black-70">
 				<label for="repo-name" class='black code f6 b db mb2'>Add a Repo to the {{topic}} list</label>
-				<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink" placeholder='www.repolink.com'>
+				<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink" placeholder='www.repolink.com' required>
 				<label for="repo-desc" class='black code f6 b db mb2'>Please, add a short description of this repo</label>
-				<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc" placeholder="Great boiler plate code!">
+				<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc" placeholder="Great boiler plate code!" required>
 				<button type="submit" class="code f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Repo!</button>
 			</form>
 	</article>
