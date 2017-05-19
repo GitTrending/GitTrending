@@ -1,6 +1,7 @@
 const passport = require("passport");
 const _ = require('lodash');
 const util = require('util');
+const ip = rquire('ip');
 const GitHubStrategy = require('passport-github2').Strategy;
 var db = require("../models");
 const authConfig = require('../config/auth.json');
@@ -9,10 +10,21 @@ const authConfig = require('../config/auth.json');
 //   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, an accessToken, refreshToken, and GitHub
 //   profile), and invoke a callback with a user object.
+let callBackURL, clientID, clientSecret;
+if (process.env.NODE_ENV === production) {
+  callBackURL = `https://arcane-crag-98377.herokuapp.com`;
+  clientID = `1cbf8693ea83c34c201c`;
+  clientSecret = `345588a79215a59a8fc3d5f6a570a98c2ee2f5cd`;
+  
+} else {
+  callBackURL = `http://127.0.0.1:8080/auth/github/callback`;
+  clientID = `e2b7ceb4a9a59a9f5b70`;
+  clientSecret = `81696e896ebf5dc7a47781c9a3bcf9470d2d9f14`;
+}
 passport.use(new GitHubStrategy({
-    clientID: authConfig.GITHUB_CLIENT_ID,
-    clientSecret: authConfig.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:8080/auth/github/callback"
+    clientID: clientID,
+    clientSecret: clientSecret,
+    callbackURL: callBackURL
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
