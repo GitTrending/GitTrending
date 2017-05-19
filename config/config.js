@@ -1,18 +1,18 @@
 const config = {
-  "development": {
-    "username": "root",
-    "password": null,
-    "database": "gitTrending_db",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "gittrendingtest_db",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
+  // "development": {
+  //   "username": "root",
+  //   "password": null,
+  //   "database": "gitTrending_db",
+  //   "host": "127.0.0.1",
+  //   "dialect": "mysql"
+  // },
+  // "test": {
+  //   "username": "root",
+  //   "password": null,
+  //   "database": "gittrendingtest_db",
+  //   "host": "127.0.0.1",
+  //   "dialect": "mysql"
+  // },
   "production": {
     "username": "v72iat2r2bu59onq",
     "password": "o7bt87mhg04udarf",
@@ -22,10 +22,10 @@ const config = {
   }
 };
 
-if (process.ENV === 'production') {
-  module.exports = config.production;	
-} else if (process.ENV === 'test') {
-  module.exports = config.test;
-} else if (process.ENV === 'development') {
-  module.exports = config.development;
-}
+// if (process.ENV === 'production') {
+  module.exports = config;	
+// } else if (process.ENV === 'test') {
+//   module.exports = config.test;
+// } else if (process.ENV === 'development') {
+//   module.exports = config.development;
+// }
