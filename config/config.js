@@ -29,4 +29,3 @@ if (process.ENV === 'production') {
 } else if (process.ENV === 'development') {
   module.exports = config.development;
 }
-module.exports = config['production' || 'development';
