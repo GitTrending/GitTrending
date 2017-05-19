@@ -22,4 +22,11 @@ const config = {
   }
 };
 
-module.exports = 'production' || 'development';
+if (process.ENV === 'production') {
+  module.exports = config.production;	
+} else if (process.ENV === 'test') {
+  module.exports = config.test;
+} else if (process.ENV === 'development') {
+  module.exports = config.development;
+}
+module.exports = config['production' || 'development';
