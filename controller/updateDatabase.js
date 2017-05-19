@@ -10,37 +10,29 @@ String.prototype.capitalize = function() {
 // Users can add a topic.
 const addTopic = (req, res) => {
     const addedTopic = req.body.addTopic;
-    console.log(`added topic: ${addedTopic}`);
-    const hbsObject = {
-        topic: addedTopic.capitalize(),
-        message1: "Oh no! There aren't any repos yet!",
-        message2: "Want to add another repo?",
-        name: data[1].displayName
-    };
-    // Add new topic to database and render page.
-    // Pass in the response, the added topic, and the handlebars object.
-    const newTopic = createTopic(res, addedTopic, hbsObject);
-
-};
-// Add new topic to database and render page.
-// Pass in the response, the added topic, and the handlebars object.
-const createTopic = (res, addedTopic, hbsObject) => {
     return Promise.all([
-    db.topic.create({
-        userId: 1,
-        topic_name: addedTopic,
-    }),
-    db.user.findOne({
-        where: {
-            id: req.user.id
-        }
-    })
+        db.topic.create({
+            userId: 1,
+            topic_name: addedTopic,
+        }),
+        db.user.findOne({
+            where: {
+                id: req.user.id
+            }
+        })
     ]).then(data => {
-        // Render addTopic page for the response
+        const hbsObject = {
+            topic: addedTopic.capitalize(),
+            message1: "Oh no! There aren't any repos yet!",
+            message2: "Want to add another repo?",
+            name: data[1].displayName
+        };
         res.render('addTopic', hbsObject)
     }).catch(err => {
         `err is ${err}`
     });
+    // Add new topic to database and render page.
+
 };
 
 // users can add a repo
@@ -70,24 +62,32 @@ const addRepo = (req, res) => {
             topicId: topicId
         })
     }).then(data => {
-        db.topic.findAll({
-            where: {
-                topic_name: topic
-            },
-            include: [db.repo],
-            order: [
-                [db.repo, 'repo_score', 'DESC']
-            ]
-        }).then(data => {
-            console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[0]));
-            const hbsObject = {
-                data: true,
-                topic: data[0].topic_name.capitalize(),
-                repos: data[0].repos
-            }
-            console.log("This is the handlebar object " + JSON.stringify(hbsObject));
-            res.render('trending', hbsObject)
-        })
+        return Promise.all([
+            db.topic.findAll({
+                where: {
+                    topic_name: topic
+                },
+                include: [db.repo],
+                order: [
+                    [db.repo, 'repo_score', 'DESC']
+                ]
+            }),
+            db.user.findOne({
+                where: {
+                    id: req.user.id
+                }
+            })
+        ])
+    }).then(data => {
+        console.log("This is the data when you find all after adding a repo: " + JSON.stringify(data[1]));
+        const hbsObject = {
+            data: true,
+            topic: data[0][0].topic_name.capitalize(),
+            repos: data[0][0].repos,
+            name: data[1].displayName
+        }
+        console.log("This is the handlebar object " + JSON.stringify(hbsObject));
+        res.render('trending', hbsObject)
     }).catch(err => {
         `err is ${err}`
     });
