@@ -14,9 +14,18 @@ const config = {
     "dialect": "mysql"
   },
   "production": {
-    "use_env_variable": "JAWSDB_URL",
+    "username": "v72iat2r2bu59onq",
+    "password": "o7bt87mhg04udarf",
+    "database": "nwbf8796jdkrgbdq",
+    "host": "gzp0u91edhmxszwf.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   }
 };
 
-module.exports = config[process.env.NODE_ENV || 'development'];
+if (process.ENV === 'production') {
+  module.exports = config.production;	
+} else if (process.ENV === 'test') {
+  module.exports = config.test;
+} else if (process.ENV === 'development') {
+  module.exports = config.development;
+}
