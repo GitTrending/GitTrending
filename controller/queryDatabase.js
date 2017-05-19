@@ -73,6 +73,7 @@ const noAuthdisplayRepos = (req, res) => {
 const queryRepoTopic = (req, res) => {
     const topic = req.body.searchTopic;
     console.log(topic);
+    return Promise.all([
     db.topic.findOne({
         where: {
             topic_name: topic
@@ -81,7 +82,13 @@ const queryRepoTopic = (req, res) => {
         order: [
             [db.repo, 'repo_score', 'DESC']
         ]
-    }).then(data => {
+    }),
+    db.user.findOne({
+        where: {
+            id: req.user.id
+        }
+    })
+    ]).then(data => {
         // the data returned is an object, the 'repos' property contains an array of repos. This array contains objects
         console.log(`THE DATA IS: ${JSON.stringify(data)}`);
         if (data) {
@@ -89,7 +96,8 @@ const queryRepoTopic = (req, res) => {
                 data: true,
                 addRepoMessage: "Oh no...there doesn't seem to be any repos!! Why not add one?",
                 repos: data.repos,
-                topic: topic.capitalize()
+                topic: topic.capitalize(),
+                name: data[1].displayName
             }
             res.render('trending', hbsObject);
         } else {

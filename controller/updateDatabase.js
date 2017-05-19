@@ -14,7 +14,8 @@ const addTopic = (req, res) => {
     const hbsObject = {
         topic: addedTopic.capitalize(),
         message1: "Oh no! There aren't any repos yet!",
-        message2: "Want to add another repo?"
+        message2: "Want to add another repo?",
+        name: data[1].displayName
     };
     // Add new topic to database and render page.
     // Pass in the response, the added topic, and the handlebars object.
@@ -24,10 +25,17 @@ const addTopic = (req, res) => {
 // Add new topic to database and render page.
 // Pass in the response, the added topic, and the handlebars object.
 const createTopic = (res, addedTopic, hbsObject) => {
+    return Promise.all([
     db.topic.create({
         userId: 1,
         topic_name: addedTopic,
-    }).then(data => {
+    }),
+    db.user.findOne({
+        where: {
+            id: req.user.id
+        }
+    })
+    ]).then(data => {
         // Render addTopic page for the response
         res.render('addTopic', hbsObject)
     }).catch(err => {
