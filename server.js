@@ -18,6 +18,7 @@ app.use(body.json());
 app.use(body.text());
 app.use(body.json({ type: "application/vnd.api+json" }));
 app.set("view engine", "handlebars");
+// Handlebars.registerPartial('add', '{{name}}');
 app.use(body.urlencoded({ extended: false }));
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));

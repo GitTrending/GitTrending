@@ -18,28 +18,42 @@ const renderIndex = (req, res) => {
 // we want to display a randomly selected trending topic when the user first lands
 const displayRepos = (req, res) => {
     return Promise.all([
-    db.topic.findAll({
+        db.topic.findAll({
             include: [db.repo],
             order: [
                 [db.repo, 'repo_score', 'DESC']
             ]
         }),
-    db.user.findOne({
-        where: {
-            id: req.user.id
-        }
-    }), 
+        db.user.findOne({
+            where: {
+                id: req.user.id
+            }
+        })
     ]).then(data => {
-        // the data returned is an array with 2 indices  -> [topicsData, userData]
+        console.log(`LENGTH: ${data[0][1].repos.length}`);
+        // console.log(`DATA: ${JSON.stringify(data)}`);
         const index = Math.round(Math.random() * (data[0].length - 1));
         const randomTopic = data[0][index];
-        const hbsObject = {
-            data: true,
-            topic: randomTopic.topic_name,
-            repos: randomTopic.repos,
-            name: data[1].displayName
-        }
-        res.render('trending', hbsObject)
+        console.log(`RANDOM TOPIC ${JSON.stringify(randomTopic)}`);
+        if (randomTopic.repos.length === 0) {
+            console.log('I am running!!');
+            const hbsObject = {
+                data: true,
+                topic: randomTopic.topic_name,
+                noRepos: `There aren't any repos yet... why not add one!`,
+                name: data[1].displayName
+            }
+            res.render('trending', hbsObject);
+        } else {
+            // the data returned is an array with 2 indices  -> [topicsData, userData]
+            const hbsObject = {
+                data: true,
+                topic: randomTopic.topic_name,
+                repos: randomTopic.repos,
+                name: data[1].displayName
+            }
+            res.render('trending', hbsObject);
+         }
     })
     .catch(err => {
         console.log(`error getting repos for a random topic>>> ${err}`)
@@ -53,19 +67,19 @@ const noAuthdisplayRepos = (req, res) => {
                 [db.repo, 'repo_score', 'DESC']
             ]
         }).then(data => {
-        console.log(`README: ${JSON.stringify(data)}`);
-        // the data returned is an array with 2 indices  -> [topicsData, userData]
-        const randomTopic = data[Math.round(Math.random() * (data.length - 1))];
-        const hbsObject = {
-            data: true,
-            topic: randomTopic.topic_name,
-            repos: randomTopic.repos
-        }
-        res.render('preview', hbsObject)
-    })
-    .catch(err => {
-        console.log(`error getting repos for a random topic>>> ${err}`)
-    })
+            console.log(`README: ${JSON.stringify(data)}`);
+            // the data returned is an array with 2 indices  -> [topicsData, userData]
+            const randomTopic = data[Math.round(Math.random() * (data.length - 1))];
+            const hbsObject = {
+                data: true,
+                topic: randomTopic.topic_name,
+                repos: randomTopic.repos
+            }
+            res.render('preview', hbsObject)
+        })
+        .catch(err => {
+            console.log(`error getting repos for a random topic>>> ${err}`)
+        })
 };
 
 // we want to display repos associated with a specific Topic when searched
@@ -73,38 +87,32 @@ const queryRepoTopic = (req, res) => {
     const topic = req.body.searchTopic;
     console.log(topic);
     return Promise.all([
-    db.topic.findOne({
-        where: {
-            topic_name: topic
-        },
-        include: [db.repo],
-        order: [
-            [db.repo, 'repo_score', 'DESC']
-        ]
-    }),
-    db.user.findOne({
-        where: {
-            id: req.user.id
-        }
-    })
+        db.topic.findOne({
+            where: {
+                topic_name: topic
+            },
+            include: [db.repo],
+            order: [
+                [db.repo, 'repo_score', 'DESC']
+            ]
+        }),
+        db.user.findOne({
+            where: {
+                id: req.user.id
+            }
+        })
     ]).then(data => {
-        if (data[0] === null) {
+        console.log(`no repos: ${JSON.stringify(data)}`);
+        if (data[0].repos.length === 0) {
+            console.log('I am running!!');
             const hbsObject = {
-                needTopic: true,
-                data: false,
-                name: data[1].displayName,
-                noTopic: `Oh no ${topic.capitalize()} isn't a topic yet! Why not add it below?`,
+                data: true,
+                topic: data[0].topic_name,
+                noRepos: `There aren't any repos yet... why not add one!`,
+                name: data[1].displayName
             }
             res.render('trending', hbsObject);
         } else {
-            if (data[0].repos === null){
-                const hbsObject = {
-                    name: data[1].displayName,
-                    topic: topic.capitalize(),
-                    data: true,
-                    noRepos: `There aren't any repos yet! Add one!`
-                }
-            }
             const hbsObject = {
                 data: true,
                 repos: data[0].repos,
@@ -112,7 +120,7 @@ const queryRepoTopic = (req, res) => {
                 name: data[1].displayName
             }
             res.render('trending', hbsObject);
-        } 
+        }
     }).catch(err => {
         console.log(`err is ${err}`);
     });
