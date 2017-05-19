@@ -3,10 +3,76 @@
   box-sizing: border-box;
 }
 
+#nav {
+  z-index: 1;
+}
+
 /* Some default document settings. */
 body {
-  background-color: #262626;
+  background-color: #f6fffe;
+  /*#f6fffe*/
+  /*#E8FDF5*/
+  margin:0;
+  /*#E8FDF5;*/
+  /*#E8FDF5*/
 }
+
+#parent-row {
+  margin-left: 3%;
+}
+
+#adjust-margin {
+  margin-right: 0px;
+}
+
+.add-parent{
+  max-height: 515px;
+}
+
+nav {
+  background-color:black;
+}
+
+#search-button{
+  height:30px;
+  width:50px;
+  background: black;
+  border:none;
+}
+
+.repo-image{
+  height:100px;
+  width:100px;
+}
+
+.addRepo {
+  height:80px;
+  width:70px;
+}
+
+.addSearch{
+  height:80px;
+  width:70px;
+}
+
+.voting{
+  align-self: center;
+}
+
+.up{
+  height:70px;
+  width:40px;  
+  background: #f6fffe;
+  border:none;
+}
+
+.down{
+  height:70px;
+  width:40px;
+  background: #f6fffe;
+  border:none;
+}
+
 
 #logo {
   color: #ffffff;

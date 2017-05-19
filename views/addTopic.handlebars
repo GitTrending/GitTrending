@@ -1,23 +1,38 @@
-<div class='flex flex-column justify-center items-center'>
-<div class="flex justify-around">
-	<div class='flex-row flex-wrap'>
-		<h2 class='self-center green avenir'>You added {{topic}} to our topics!!</h2>
-		{{#if repos}}
-			{{message2}}
-			{{#each repos}}
-				{{this.repo_name}}
-				{{this.repo_link}}
-			{{/each}}
-		{{/if}}
+<nav class="fixed db dt-l w-100 border-box pa3 ph4-l" id="nav">
+<div class="flex flex-row">
+  <a class="f4 washed-green db dtc-l v-mid link dim mt1 mr3 mb2 mb0-l code" href="/" title="Home">GitLists 
+  </a>
+    <a class="link dark-gray f6 f5-l dib mr4-l" href="#" title="Home">
+		<form action="/" method="POST" class="flex justify-around">
+    		<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="searchtopic" name="searchTopic" placeholder="Search for a repo">
+  			<button class="black" type="submit" id="search-button"><img src='/../public/assets/css/images/searchThis.svg'></button>
+		</form>
+    </a>
+</div>
+  <a class="washed-green db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l code" href="/" title="Home"><i class="em em-wave"></i> Hi, {{name}}! 
+  </a>
+</nav>
 
-		<p class='gold'>{{message1}}</p>
-			<form action="/trending?topic={{topic}}" method="POST">
-			  <label for="burger-name" class='gold avenir f6 b db mb2'>Want to add a repo link to the {{topic}} list?</label>
-			  <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink">
-			  <label for="repo-desc" class='gold avenir f6 b db mb2'>Please add a short description of this repo</label>
-	    	  <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc">
-			  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add the repo!</button>
-			</form>
+<div class='flex flex-column justify-center items-center'>
+	<div class='flex-row flex-wrap'>
+		<h2 class='self-center black code'>You added {{topic}} to our topics!!</h2>
+		<h2 class='self-center black code'>{{message1}}</h2>
 	</div>
 </div>
+
+<div class="flex justify-center">	
+	<article class="mw5 center bg-white br3 pa3 pa4-ns mv3 ba b--black-10">
+		<div class="tc">
+			<img class='addRepo' src="/../public/assets/css/images/addRepo_files/addRepo.svg" class="br-100 h3 w3 dib" title="Photo of a kitty staring at you">
+			<h1 class="f4 code">Add a Repo to the {{topic}} list</h1>
+			<hr class="mw3 bb bw1 b--black-10">
+		</div>
+		<form action="/trending?topic={{topic}}" method="POST" class="lh-copy measure center f6 black-70">
+				<label for="repo-name" class='black code f6 b db mb2'>Add a Repo to the {{topic}} list</label>
+				<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink" placeholder='www.repolink.com'>
+				<label for="repo-desc" class='black code f6 b db mb2'>Please, add a short description of this repo</label>
+				<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc" placeholder="Great boiler plate code!">
+				<button type="submit" class="code f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Repo!</button>
+			</form>
+	</article>
 </div>
