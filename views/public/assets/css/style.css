@@ -75,7 +75,7 @@ nav {
 
 
 #logo {
-  color: #ffffff;
+  /*color: #ffffff;*/
 }
 
 #description {
@@ -84,7 +84,7 @@ nav {
 }
 
 .description-text {
-  color: #ffffff;
+  color: black;
 }
 
 .connect-button:hover {
