@@ -30,11 +30,9 @@ const displayRepos = (req, res) => {
             }
         })
     ]).then(data => {
-        console.log(`LENGTH: ${data[0][1].repos.length}`);
-        // console.log(`DATA: ${JSON.stringify(data)}`);
         const index = Math.round(Math.random() * (data[0].length - 1));
         const randomTopic = data[0][index];
-        console.log(`RANDOM TOPIC ${JSON.stringify(randomTopic)}`);
+
         if (randomTopic.repos.length === 0) {
             console.log('I am running!!');
             const hbsObject = {
