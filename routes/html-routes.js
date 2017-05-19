@@ -8,5 +8,6 @@ const router = require('express').Router(),
 router
 	.get('/index', query.renderIndex)
 	.get('/', isAuthenticated, query.displayRepos)
+  .get('/preview', query.displayRepos)
 
 module.exports = router;
