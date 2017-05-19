@@ -22,4 +22,4 @@ const config = {
   }
 };
 
-module.exports = 'production' || 'development'];
+module.exports = 'production' || 'development';
