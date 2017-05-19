@@ -12,8 +12,8 @@ const db = require('../models');
 // For testing http tasks.
 chai.use(chaiHttp);
 
-// Check that index page renders successfully.
-describe('/index route', function() {
+// Check index page renders successfully.
+describe('Render /index route', function() {
     it('succeeds silently!', async function() {
         chai.request('http://localhost:8080')
         .get('/')
@@ -23,10 +23,8 @@ describe('/index route', function() {
     });
 });
 
-// 
-describe('When no oauth, get repos for random topic', function () {
-    const db = require('../models');
-
+// Check preview page renders with random topic when there's no oauth.
+describe('Get repos for random topic when no oauth', function () {
     it('exist', function () {
        chai.expect(db.topic.findAll).to.exist;
     });
@@ -45,8 +43,9 @@ describe('When no oauth, get repos for random topic', function () {
         }
         // Random tests are interesting.
         // This will pass with seed data only.
-        // To get this to always or mostly pass,
-        // I'd have a loop covering all topic names.
+        // This will always pass with seed data only.
+        // It will pass with more than seed data, if random happens to be react.
+        // I can adjust test later to loop through possible expections to cover all possibilities.
         chai.expect(topics[0].topic_name).to.equal('React');
         chai.expect(topics[0].repos[0].repo_name).to.equal('React');
 
@@ -57,3 +56,105 @@ describe('When no oauth, get repos for random topic', function () {
         });
     });
 });
+
+// Check repos associated with specific topic display when searched.
+// Note: consciously checking for user id, though it's part of query repo.
+// Keeping tests simpler for now and may add user check in later test revisions.
+describe('Get repos for associated topic when searched', function() {
+    
+    // Test behavior where topic does not exist.
+    it ('shall find topic does not exist', async function () {
+
+        const searchTopic = 'New topic';
+
+        const topic = await db.topic.findOne({
+            where: {
+                topic_name: searchTopic
+            },
+            include: [db.repo],
+            order: [
+                [db.repo, 'repo_score', 'DESC']
+            ]
+        });
+
+        const hbsObject = {
+          noTopic: "Topic doesn't exist! Why not add it?"  
+        };
+
+        chai.expect(topic).to.equal(null);
+
+        chai.request('http://localhost:8080')
+        .get('/trending', hbsObject)
+        .end(function(err, res) {
+            expect(res).to.have.status(200);
+            expect(res.noTopic).to.equal("Topic doesn't exist! Why not add it?");
+        });
+    });
+
+    // Test behavior where topic exists but no repos.
+    it('shall find topic that exists with no repos', async function() {
+
+        // Add search topic to seed data in testing db for this to work.
+        const searchTopic = 'JavaScript';
+
+        const topic = await db.topic.findOne({
+            where: {
+                topic_name: searchTopic
+            },
+            include: [db.repo],
+            order: [
+                [db.repo, 'repo_score', 'DESC']
+            ]
+        });
+
+        chai.expect(topic.topic_name).to.equal('JavaScript');
+        chai.expect(topic.repos).to.equal(null);
+
+        const hbsObject = {
+            topic: searchTopic,
+            noRepos: "There aren't any repos yet..."
+        };
+
+        chai.request('http://localhost:8080')
+        .get('/trending', hbsObject)
+        .end(function(err, res) {
+            expect(res).to.have.status(200);
+            expect(res.noRepos).to.equal("There aren't any repos yet...");
+        });
+    });
+
+    // Test behavior where topic exists with repos.
+    it('shall find topic and repos', async function() {
+
+        const searchTopic = 'React';
+
+        const topic = await db.topic.findOne({
+            where: {
+                topic_name: searchTopic
+            },
+            include: [db.repo],
+            order: [
+                [db.repo, 'repo_score', 'DESC']
+            ]
+        });
+
+        const hbsObject = {
+            topic: searchTopic,
+            repo: topic[0].repos
+        };
+
+        chai.expect(topic[0].topic_name).to.equal('React');
+        chai.expect(topic[0].repo[0].repo_name).to.equal('React');
+
+        chai.request('http://localhost:8080')
+        .get('/trending', hbsObject)
+        .end(function(err, res) {
+            expect(res).to.have.status(200);
+            expect(res.repo[0].repo_name).to.equal("React");
+        });
+
+    })
+});
+
+
+
