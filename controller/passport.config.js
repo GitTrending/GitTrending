@@ -1,7 +1,8 @@
+'use strict';
 const passport = require("passport");
 const _ = require('lodash');
 const util = require('util');
-const ip = rquire('ip');
+const ip = require('ip');
 const GitHubStrategy = require('passport-github2').Strategy;
 var db = require("../models");
 const authConfig = require('../config/auth.json');
@@ -11,7 +12,7 @@ const authConfig = require('../config/auth.json');
 //   credentials (in this case, an accessToken, refreshToken, and GitHub
 //   profile), and invoke a callback with a user object.
 let callBackURL, clientID, clientSecret;
-if (process.env.NODE_ENV === production) {
+if (process.env.NODE_ENV === 'production') {
   callBackURL = `https://arcane-crag-98377.herokuapp.com`;
   clientID = `1cbf8693ea83c34c201c`;
   clientSecret = `345588a79215a59a8fc3d5f6a570a98c2ee2f5cd`;
