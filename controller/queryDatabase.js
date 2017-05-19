@@ -94,8 +94,7 @@ const queryRepoTopic = (req, res) => {
         if (data) {
             const hbsObject = {
                 data: true,
-                addRepoMessage: "Oh no...there doesn't seem to be any repos!! Why not add one?",
-                repos: data.repos,
+                repos: data[0].repos,
                 topic: topic.capitalize(),
                 name: data[1].displayName
             }
