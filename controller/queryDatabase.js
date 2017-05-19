@@ -30,6 +30,7 @@ const displayRepos = (req, res) => {
         }
     }), 
     ]).then(data => {
+        console.log(`README: ${JSON.stringify(data)}`);
         // the data returned is an array with 2 indices  -> [topicsData, userData]
         const randomTopic = data[0][Math.round(Math.random() * (data.length - 1))];
         const hbsObject = {

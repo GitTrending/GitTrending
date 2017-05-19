@@ -1,62 +1,88 @@
-<!-- DON'T WORRY MAX THIS IS FOR DEBUGGING!!!! from Noel & Shengtao-->
-<div class='flex flex-column justify-center items-center'>
-<div class="flex justify-around">
-	<div class='flex-row flex-wrap'>
-		{{#if data}}
-			<h2 class='self-center green avenir'>The {{topic}} Repos!</h2>
-		{{else}}
-		<h2 class='self-center green avenir'>{{noTopic}}</h2>
-		{{/if}}
+<nav class="fixed db dt-l w-100 border-box pa3 ph4-l" id="nav">
+<div class="flex flex-row">
+  <a class="f4 washed-green db dtc-l v-mid link dim mt1 mr3 mb2 mb0-l code" href="/" title="Home">GitLists 
+  </a>
+    <a class="link dark-gray f6 f5-l dib mr4-l" href="#" title="Home">
+		<form action="/" method="POST" class="flex justify-around">
+    		<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="searchtopic" name="searchTopic" placeholder="Search for a repo">
+  			<button class="black" type="submit" id="search-button"><img src='/../public/assets/css/images/searchThis.svg'></button>
+		</form>
+    </a>
+</div>
+  <a class="washed-green db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l code" href="/" title="Home"><i class="em em-wave"></i> Hi, {{name}}! 
+  </a>
+</nav>
 
-		<ul class='gold'>
+	<div class='flex flex-column justify-center items-center'>
+		<div class="flex justify-around">
+			<div class='flex-row flex-wrap'>
+				{{#if data}}
+					<h2 class="pt5 mt4 mb3 f1 fw3 self-center black code"'>{{topic}} Repos</h2>
+				{{else}}
+				<h2 class="pt5 mt4 mb3 f1 fw3 self-center black code"'>{{noTopic}}</h2>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+<div class="flex flex-row justify-around">
+	<main class="mw6 center" id="parent-row">
 		{{#each repos}}
-			<li>Repo Description: {{this.repo_description}}</li>
-				Repo Link: {{this.repo_link}} || 
-				Repo Score: {{this.repo_score}}
-			 <form class='voting' action="/trending/{{../topic}}/{{this.id}}?vote=up" method="POST">
-                <input id="up" type="hidden" name="scorechange" value="1">
-                <button class="up f6 link dim ph3 pv2 mb2 dib white bg-purple" type="submit">Vote UP</button>
-              </form>
-              <form class='voting' action="/trending/{{../topic}}/{{this.id}}?vote=down" method="POST">
-                <input id="down" type="hidden" name="scorechange" value="-1 & {{this.repo_score}}">
-                <button class="down f6 link dim ph3 pv2 mb2 dib white bg-purple" id='downVote' type="submit">Vote DOWN</button>
-              </form>
-		{{/each}}
-
+	    <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
+			<div class="dtc w2 w3-ns v-mid">
+				<img class="repo-image" src="/../public/assets/css/images/repos.svg" class="ba b--black-10 db br-100 w2 w3-ns h2 h3-ns"/>
+			</div>
+			<div class="dtc v-mid pl3 pr3">
+				<h1 class="code f6 f5-ns fw6 lh-title black mv0">Description: {{this.repo_description}}</h1>
+				<h2 class="code f6 fw4 mt0 mb0 black-60"><a href="{{this.repo_link}}">{{this.repo_link}}</a></h2>
+			</div>
+			<div class="flex flex-column">
+		        <form class='voting' action="/trending/{{../topic}}/{{this.id}}?vote=up" method="POST">
+		            <input id="up" type="hidden" name="scorechange" value="1">
+		            <button class="up f6 link dim dib white" type="submit"><img class="up" src="/../public/assets/css/images/upArrow.svg"></button>
+		        </form>
+					<h2 class="center f6 fw4 mt0 mb0 black-60 code">{{this.repo_score}}</h2>
+		        <form class='voting' action="/trending/{{../topic}}/{{this.id}}?vote=down" method="POST">
+			        <input id="down" type="hidden" name="scorechange" value="-1 & {{this.repo_score}}">
+			        <button class="down f6 link dim dib white" id='downVote' type="submit"><img class="down" src="/../public/assets/css/images/downArrow.svg"></button>
+		          </form>
+	         </div>
+	      </article>
+	      {{/each}}
+	  </main>		
 		{{#unless repos}}
-			{{addRepoMessage}}
-			{{addTopicMessage}}
+			<h2 class='self-center black code'>
+				{{addRepoMessage}}
+				{{addTopicMessage}}
+			</h2>
 		{{/unless}}
-		</ul>
+
+		<article class="add-parent mw5 center bg-white br3 pa3 pa3-ns mv3 ba b--black-10" id="adjust-margin">
+			<div class="tc">
+				<img class='addRepo' src="/../public/assets/css/images/addRepo_files/addRepo.svg" class="br-100 h3 w3 dib" title="Photo of a kitty staring at you">
+				<h1 class="f4 code">Add a Repo to the {{topic}} list</h1>
+				<hr class="mw3 bb bw1 b--black-10">
+			</div>
+			<form action="/trending?topic={{topic}}" method="POST" class="lh-copy measure center f6 black-70">
+					<label for="repo-name" class='black code f6 b db mb2'>Add a Repo to the {{topic}} list</label>
+					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink" placeholder='www.repolink.com'>
+					<label for="repo-desc" class='black code f6 b db mb2'>Please, add a short description of this repo</label>
+					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc" placeholder="Great boiler plate code!">
+					<button type="submit" class="code f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black pointer">Add Repo!</button>
+				</form>
+		</article>
+
+		<article class=" add-parent mw5 center bg-white br3 pa3 pa3-ns mv3 ba b--black-10">
+		  <div class="tc">
+		    <img class='addSearch' src="/../public/assets/css/images/addSearch.svg" class="br-100 h3 w3 dib" title="Photo of a kitty staring at you">
+		    <h1 class="f4 code">Can't find the right topic? Add it!</h1>
+		    <hr class="mw3 bb bw1 b--black-10">
+		  </div>
+			  <form action="/addTopic" method="POST"class="lh-copy measure center f6 black-70">
+					<label for="repo-name" class='black code f6 b db mb2'>Add a topic</label>
+					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="addTopic" name="addTopic" placeholder="ES12">
+					<button type="submit" class="code f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black pointer">Add Topic!</button>
+			</form>
+		</article>
 	</div>
 </div>
-	<h1 class='gold avenir'>Git Connected!!</h1>
-	<h2 class='gold avenir'>Hello {{name}}</h2>
-	<form action="/trending?topic={{topic}}" method="POST">
-	  <label for="repo-name" class='gold avenir f6 b db mb2'>Want to add a repo link to the {{topic}} list?</label>
-	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink">
-	    <label for="repo-desc" class='gold avenir f6 b db mb2'>Please add a short description of this repo</label>
-	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc">
-	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Repo!</button>
-	</form>
-</div>
-
-<div class='flex flex-column justify-center items-center'>
-	<h2 class='gold avenir'>Want to search for a specific topic?</h2>
-	<form action="/" method="POST">
-	    <label for="repo-name" class='gold avenir f6 b db mb2'>What Topic?</label>
-	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="searchtopic" name="searchTopic">
-	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Search Repos!</button>
-	</form>
-</div>
-
-<div class='flex flex-column justify-center items-center'>
-	<h2 class='gold avenir'>Want to add a topic?</h2>
-	<form action="/addTopic" method="POST">
-	    <label for="repo-name" class='gold avenir f6 b db mb2'>What topic do you want to add?</label>
-	    <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="addTopic" name="addTopic">
-	  <button type="submit" class="avenir f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black">Add Topic!</button>
-	</form>
-</div>
-
 <script type="text/javascript" src='/frontend.js'></script>
