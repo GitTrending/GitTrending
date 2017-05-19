@@ -112,7 +112,8 @@ const updateScore = (req, res) => {
     // then fetch all the updated repo
     .then(() => {
         console.log("updating scoring ");
-        return db.topic.findAll({
+        return Promise.all([ 
+            db.topic.findAll({
             where: {
                 topic_name: topic
             },
@@ -120,13 +121,20 @@ const updateScore = (req, res) => {
             order: [
                 [db.repo, 'repo_score', 'DESC']
             ]
-        })
+        }),
+        db.user.findOne({
+        where: {
+            id: req.user.id
+        }
+    })])
     })
     .then(data => {
+        console.log(`HANDLEBARZ: ${JSON.stringify(data)}`);
         const hbsObject = {
             data: true,
-            topic: data[0].topic_name.capitalize(),
-            repos: data[0].repos
+            topic: data[0][0].topic_name.capitalize(),
+            repos: data[0][0].repos,
+            name: data[1].displayName
         }
         res.render('trending', hbsObject)
     })
