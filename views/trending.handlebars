@@ -4,28 +4,36 @@
   </a>
     <a class="link dark-gray f6 f5-l dib mr4-l" href="#" title="Home">
 		<form action="/" method="POST" class="flex justify-around">
-    		<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="searchtopic" name="searchTopic" placeholder="Search for a repo">
+    		<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="searchtopic" name="searchTopic" placeholder="Search for a repo" required>
   			<button class="black" type="submit" id="search-button"><img src='/../public/assets/css/images/searchThis.svg'></button>
 		</form>
     </a>
 </div>
-  <a class="washed-green db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l code" href="/" title="Home"><i class="em em-wave"></i> Hi, {{name}}! 
+  <a class="washed-green db dtc-l v-mid link dim w-80 w-25-l tr tl-r mb2 mb0-l code" href="/" title="Home"><i class="em em-wave"></i> Hi, {{name}}! 
   </a>
+  <a class="washed-green db dtc-l v-mid link dim tr tl-r mb2 mb0-l code" href="/logout">
+  	<i class="em em-wave">
+  		<img src="/../public/assets/css/images/logout.svg" />
+  	</i>
+	</a>
 </nav>
-
 	<div class='flex flex-column justify-center items-center'>
 		<div class="flex justify-around">
 			<div class='flex-row flex-wrap'>
 				{{#if data}}
 					<h2 class="pt5 mt4 mb3 f1 fw3 self-center black code"'>{{topic}} Repos</h2>
 				{{else}}
-				<h2 class="pt5 mt4 mb3 f1 fw3 self-center black code"'>{{noTopic}}</h2>
+				<h3 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noTopic}}</h3>
 				{{/if}}
 			</div>
 		</div>
 	</div>
 <div class="flex flex-row justify-around">
 	<main class="mw6 center" id="parent-row">
+	{{#unless repos}}
+		<h3 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noRepos}}</h3>
+	{{/unless}}
+
 		{{#each repos}}
 	    <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
 			<div class="dtc w2 w3-ns v-mid">
@@ -55,7 +63,7 @@
 				{{addTopicMessage}}
 			</h4>
 		{{/unless}}
-
+		{{#unless needTopic}}
 		<article class="add-parent mw5 center bg-white br3 pa3 pa3-ns mv3 ba b--black-10" id="adjust-margin">
 			<div class="tc">
 				<img class='addRepo' src="/../public/assets/css/images/addRepo_files/addRepo.svg" class="br-100 h3 w3 dib" title="Photo of a kitty staring at you">
@@ -64,13 +72,13 @@
 			</div>
 			<form action="/trending?topic={{topic}}" method="POST" class="lh-copy measure center f6 black-70">
 					<label for="repo-name" class='black code f6 b db mb2'>Add a Repo to the {{topic}} list</label>
-					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink" placeholder='www.repolink.com'>
+					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="link" name="repoLink" placeholder='www.repolink.com' required>
 					<label for="repo-desc" class='black code f6 b db mb2'>Please, add a short description of this repo</label>
-					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc" placeholder="Great boiler plate code!">
+					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="desc" name="repoDesc" placeholder="Great boiler plate code!" required>
 					<button type="submit" class="code f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black pointer">Add Repo!</button>
 				</form>
 		</article>
-
+		{{/unless}}
 		<article class=" add-parent mw5 center bg-white br3 pa3 pa3-ns mv3 ba b--black-10">
 		  <div class="tc">
 		    <img class='addSearch' src="/../public/assets/css/images/addSearch.svg" class="br-100 h3 w3 dib" title="Photo of a kitty staring at you">
@@ -79,7 +87,7 @@
 		  </div>
 			  <form action="/addTopic" method="POST"class="lh-copy measure center f6 black-70">
 					<label for="repo-name" class='black code f6 b db mb2'>Add a topic</label>
-					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="addTopic" name="addTopic" placeholder="ES12">
+					<input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="addTopic" name="addTopic" placeholder="ES12" required>
 					<button type="submit" class="code f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black pointer">Add Topic!</button>
 			</form>
 		</article>

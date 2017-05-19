@@ -33,6 +33,10 @@ nav {
   background-color:black;
 }
 
+.no-show{
+  display: none;
+}
+
 #search-button{
   height:30px;
   width:50px;

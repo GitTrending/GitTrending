@@ -30,7 +30,6 @@ const displayRepos = (req, res) => {
         }
     }), 
     ]).then(data => {
-        console.log(`README: ${JSON.stringify(data)}`);
         // the data returned is an array with 2 indices  -> [topicsData, userData]
         const index = Math.round(Math.random() * (data[0].length - 1));
         const randomTopic = data[0][index];
@@ -89,15 +88,23 @@ const queryRepoTopic = (req, res) => {
         }
     })
     ]).then(data => {
-        // the data returned is an object, the 'repos' property contains an array of repos. This array contains objects
-        console.log(`THE DATA IS: ${JSON.stringify(data)}`);
         if (data[0] === null) {
             const hbsObject = {
+                needTopic: true,
                 data: false,
+                name: data[1].displayName,
                 noTopic: `Oh no ${topic.capitalize()} isn't a topic yet! Why not add it below?`,
             }
             res.render('trending', hbsObject);
         } else {
+            if (data[0].repos === null){
+                const hbsObject = {
+                    name: data[1].displayName,
+                    topic: topic.capitalize(),
+                    data: true,
+                    noRepos: `There aren't any repos yet! Add one!`
+                }
+            }
             const hbsObject = {
                 data: true,
                 repos: data[0].repos,
