@@ -47,6 +47,28 @@ const displayRepos = (req, res) => {
     })
 };
 
+const noAuthdisplayRepos = (req, res) => {
+    db.topic.findAll({
+            include: [db.repo],
+            order: [
+                [db.repo, 'repo_score', 'DESC']
+            ]
+        }).then(data => {
+        console.log(`README: ${JSON.stringify(data)}`);
+        // the data returned is an array with 2 indices  -> [topicsData, userData]
+        const randomTopic = data[Math.round(Math.random() * (data.length - 1))];
+        const hbsObject = {
+            data: true,
+            topic: randomTopic.topic_name,
+            repos: randomTopic.repos
+        }
+        res.render('preview', hbsObject)
+    })
+    .catch(err => {
+        console.log(`error getting repos for a random topic>>> ${err}`)
+    })
+};
+
 // we want to display repos associated with a specific Topic when searched
 const queryRepoTopic = (req, res) => {
     const topic = req.body.searchTopic;
@@ -85,5 +107,6 @@ const queryRepoTopic = (req, res) => {
 module.exports = {
     renderIndex,
     displayRepos,
+    noAuthdisplayRepos,
     queryRepoTopic,
 };
