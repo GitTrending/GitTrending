@@ -91,7 +91,13 @@ const queryRepoTopic = (req, res) => {
     ]).then(data => {
         // the data returned is an object, the 'repos' property contains an array of repos. This array contains objects
         console.log(`THE DATA IS: ${JSON.stringify(data)}`);
-        if (data) {
+        if (data[0] === null) {
+            const hbsObject = {
+                data: false,
+                noTopic: `Oh no ${topic.capitalize()} isn't a topic yet! Why not add it below?`,
+            }
+            res.render('trending', hbsObject);
+        } else {
             const hbsObject = {
                 data: true,
                 repos: data[0].repos,
@@ -99,13 +105,7 @@ const queryRepoTopic = (req, res) => {
                 name: data[1].displayName
             }
             res.render('trending', hbsObject);
-        } else {
-            const hbsObject = {
-                data: false,
-                noTopic: `Oh no ${topic.capitalize()} isn't a topic yet! Why not add it below?`,
-            }
-            res.render('trending', hbsObject);
-        }
+        } 
     }).catch(err => {
         console.log(`err is ${err}`);
     });
