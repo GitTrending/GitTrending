@@ -12,13 +12,18 @@ const db = require('../models');
 // For testing http tasks.
 chai.use(chaiHttp);
 
+const repoScore = 0;
+
 // Test repo scoring.
 describe('Update repo score based on user input and display score', function() {
-    it('shall find user repos favorite table already exists', async function() {
-       
-       const userReposFavorite = await db.users_repos_favorite.findOne({
+    
+    // Test ability to upvote score if not already upvoted.
+    it('shall upvote a repo score if not done already', async function() {
+
+        // First find table and repo.
+        const userReposFavorite = await db.users_repos_favorite.findOne({
             where: {
-                userId: 1
+                userId: 1,
                 repoId: 1
             }
         });
@@ -29,137 +34,114 @@ describe('Update repo score based on user input and display score', function() {
             }
         });
 
-        // We expect user repos favorites table to exist.
+        // Test returns false with seed data.
+        // Test returns true with user repo favorite table added.
         chai.expect(userReposFavorite.userId).to.equal(1)
-    });
 
-    it('shall upvote a repo score', async function() {
-
-    });
-
-    it('shall downvote a repo score', async function() {
-
-    });
-
+        // Set to vote boolean value.
+        const repoUserUpvoted = userReposFavorite.repo_upvoted;
         
-
-        // Purposefully setting score to upvote to test results.
+        // Purposefully setting upvote score change to test results.
         const scoreChange = 1;
 
-        
-        
-        
-        if (repoUserUpvoted && scoreChange === 1) {
-            db.repo.update({
+        // If user already upvoted, don't let them upvote again.
+        if (repoUserUpvoted) {
+            chai.expect(repoUserUpvoted).to.equal(true);
+            return;
+
+        // If user hasn't upvoted, test upvoting works.
+        } else {
+            chai.expect(repoUserUpvoted).to.equal(false);
+
+            // Upvote repo score.
+            await db.repo.update({
                 repo_score: repo_score + scoreChange
+
             }, {
                 where: {
-                    repo.id: 1,
+                    id: 1,
                 }
             });
-            db.users_repos_favorite.update({
-                repo_updated:true,
-                repo_downvoted: false
-            });
+
+            // Check repo score updated correctly.
             chai.expect(repo.repo_score).to.equal(repo.repo_score + 1);
-            chai.expect(userReposFavorite)
-        } else if (repoUserDownvoted && scoreChange === -1) {
+
+            // Reset vote booleans.
+            await db.users_repos_favorite.update({
+                repo_upvoted:true,
+                repo_downvoted: false
+            }, {
+                where: {
+                    userId: 1,
+                    repoId: 1
+                }
+            });
+
+            // Test reset booleans works.
+            chai.expect(repoUserUpvoted).to.equal(true);
+        }
+    });
+
+    // Test ability to downvote score if not already upvoted.
+    it('shall downvote a repo score if not done already', async function() {
+
+        // First find table and repo.
+       const userReposFavorite = await db.users_repos_favorite.findOne({
+            where: {
+                userId: 1,
+                repoId: 2
+            }
+        });
+
+        const repo = await db.repo.findOne({
+            where: {
+                id: 2,
+            }
+        });
+
+        // Test returns false with seed data.
+        // Test returns true with user repo favorite table added.
+        chai.expect(userReposFavorite.userId).to.equal(1);
+        
+        // Set to vote boolean value.
+        const repoUserDownvoted = userReposFavorite.repo_downvoted;
+
+        // Purposefully setting upvote score change to test results.
+        const scoreChange = -1;
+
+        if (repoUserDownvoted) {
+            chai.expect(repoUserDownvoted).to.equal(true);
+            return;
+        } else {
+            chai.expect(repoUserDownvoted).to.equal(false);
+
+            await db.repo.update({
+                repo_score: repo_score + scoreChange
+
+            }, {
+                where: {
+                    id: 2,
+                }
+            });
+
+            // Check repo score updated correctly.
             chai.expect(repo.repo_score).to.equal(repo.repo_score - 1);
+
+            await db.users_repos_favorite.update({
+                repo_upvoted: false,
+                repo_downvoted: true
+            }, {
+                where: {
+                    userId: 1,
+                    repoId: 2
+                }
+            });
+
+            chai.expect(repoUserDownvoted).to.equal(true);
+
         }
 
     });
+
+    // Todo: need to add test that score updates in View.
 });
-
-// Check repos associated with specific topic display when searched.
-// Note: not checking user ids in these tests.
-describe('Get repos for associated topic when searched', function() {
-    
-    // Test behavior where topic does not exist.
-    it ('shall find topic does not exist', async function () {
-
-        const topics = await db.topic.findOne({
-            where: {
-                topic_name: 'New topic'
-            },
-            include: [db.repo],
-            order: [
-                [db.repo, 'repo_score', 'DESC']
-            ]
-        });
-
-        const hbsObject = {
-          noTopic: "Topic doesn't exist! Why not add it?"  
-        };
-
-        chai.expect(topics).to.equal(null);
-
-        chai.request('http://localhost:8080')
-        .get('/trending', hbsObject)
-        .end(function(err, res) {
-            chai.expect(res).to.have.status(200);
-            chai.expect(res.noTopic).to.equal("Topic doesn't exist! Why not add it?");
-        });
-    });
-
-    // Test behavior where topic exists but no repos.
-    it('shall find topic that exists with no repos', async function() {
-
-        const topics = await db.topic.findOne({
-            where: {
-                topic_name: 'JavaScript'
-            },
-            include: [db.repo],
-            order: [
-                [db.repo, 'repo_score', 'DESC']
-            ]
-        });
-
-        const hbsObject = {
-            topic: 'JavaScript',
-            noRepos: "There aren't any repos yet..."
-        };
-
-        chai.expect(topics.topic_name).to.equal('JavaScript');
-        chai.expect(topics.repos[0]).to.equal(undefined);
-
-        chai.request('http://localhost:8080')
-        .get('/trending', hbsObject)
-        .end(function(err, res) {
-            chai.expect(res).to.have.status(200);
-            chai.expect(res.noRepos).to.equal("There aren't any repos yet...");
-        });
-    });
-
-    // Test behavior where topic exists with repos.
-    it('shall find topic and repos', async function() {
-
-        const topics = await db.topic.findOne({
-            where: {
-                topic_name: 'React'
-            },
-            include: [db.repo],
-            order: [
-                [db.repo, 'repo_score', 'DESC']
-            ]
-        });
-
-        const hbsObject = {
-            topic: 'React',
-            repos: topics.repos
-        };
-
-        chai.expect(topics.topic_name).to.equal('React');
-        chai.expect(topics.repos[0].repo_name).to.equal('React');
-
-        chai.request('http://localhost:8080')
-        .get('/trending', hbsObject)
-        .end(function(err, res) {
-             chai.expect(res).to.have.status(200);
-             chai.expect(res.repos[0].repo_name).to.equal("React");
-        });
-
-    })
-});
-
-
-
