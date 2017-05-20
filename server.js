@@ -3,6 +3,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const methodOverride = require('method-override');
+const favicon = require('serve-favicon');
+const path = require('path');
 
 const body = require('body-parser');
 const exphbs = require("express-handlebars");
@@ -11,6 +13,9 @@ const htmlRouter = require('./routes/html-routes');
 const apiRouter = require('./routes/api-routes');
 const app = express();
 const db = require('./models');
+
+//favicon for express
+app.use(favicon(path.join(__dirname, 'views', 'public', 'favicon.ico')));
 
 // Sets up the Express app to handle data parsing
 app.use(cookieParser());
