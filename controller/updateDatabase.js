@@ -10,29 +10,40 @@ String.prototype.capitalize = function() {
 // Users can add a topic.
 const addTopic = (req, res) => {
     const addedTopic = req.body.addTopic;
-    return Promise.all([
-        db.topic.create({
-            userId: 1,
-            topic_name: addedTopic,
-        }),
-        db.user.findOne({
-            where: {
-                id: req.user.id
-            }
-        })
-    ]).then(data => {
-        const hbsObject = {
-            topic: addedTopic.capitalize(),
-            message1: "Oh no! There aren't any repos yet!",
-            message2: "Want to add another repo?",
-            name: data[1].displayName
-        };
-        res.render('addTopic', hbsObject)
-    }).catch(err => {
-        `err is ${err}`
-    });
-    // Add new topic to database and render page.
-
+    return db.topic.findOne({
+        where: {
+            topic_name: addedTopic
+        }
+    })
+    .then(data=>{
+        if (data){
+            // that topic already exists
+            return Promise.resolve();
+        } else {
+            // no such topic, creating one .
+            return Promise.all([
+                db.topic.create({
+                    userId: 1,
+                    topic_name: addedTopic,
+                }),
+                db.user.findOne({
+                    where: {
+                        id: req.user.id
+                    }
+                })
+            ]).then(data => {
+                const hbsObject = {
+                    topic: addedTopic.capitalize(),
+                    message1: "Oh no! There aren't any repos yet!",
+                    message2: "Want to add another repo?",
+                    name: data[1].displayName
+                };
+                res.render('addTopic', hbsObject)
+            }).catch(err => {
+                `err is ${err}`
+            });
+        }
+    })
 };
 
 // users can add a repo
