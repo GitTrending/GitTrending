@@ -13,8 +13,8 @@ const db = require('../models');
 chai.use(chaiHttp);
 
 // Test repo scoring.
-describe('Update repo score based on user input and display score', function () {
-    it('shall update score when user already has favorited a repo', async function () {
+describe('Update repo score based on user input and display score', function() {
+    it('shall find user repos favorite table already exists', async function() {
        
        const userReposFavorite = await db.users_repos_favorite.findOne({
             where: {
@@ -29,33 +29,44 @@ describe('Update repo score based on user input and display score', function () 
             }
         });
 
-        // We are testing behavior when user already has favorite for a repo.
-        // User id of repo and repo favorite match based on find.
-        // So knowing repo exists means we can move on in tests.
-        if (userReposFavorite.userId === 1) {
+        // We expect user repos favorites table to exist.
+        chai.expect(userReposFavorite.userId).to.equal(1)
+    });
 
-            const repoUserUpvoted = userReposFavorite.repo_upvoted;
-            const scoreChange = 1;
+    it('shall upvote a repo score', async function() {
 
-            if (repoUserUpvoted && scoreChange === 1) {
-                db.repo.update({
-                    repo_score: repo_score + scoreChange
-                }, {
-                    where: {
-                        repo.id: 1,
-                    }
-                });
-                db.users_repos_favorite.update({
-                    repo_updated:true,
-                    repo_downvoted: false
-                });
-                chai.expect(repo.repo_score).to.equal(repo.repo_score + 1);
-                chai.expect(userReposFavorite)
-            } else if (repoUserDownvoted && scoreChange === -1) {
-                chai.expect(repo.repo_score).to.equal(repo.repo_score - 1);
-            }
+    });
 
+    it('shall downvote a repo score', async function() {
+
+    });
+
+        
+
+        // Purposefully setting score to upvote to test results.
+        const scoreChange = 1;
+
+        
+        
+        
+        if (repoUserUpvoted && scoreChange === 1) {
+            db.repo.update({
+                repo_score: repo_score + scoreChange
+            }, {
+                where: {
+                    repo.id: 1,
+                }
+            });
+            db.users_repos_favorite.update({
+                repo_updated:true,
+                repo_downvoted: false
+            });
+            chai.expect(repo.repo_score).to.equal(repo.repo_score + 1);
+            chai.expect(userReposFavorite)
+        } else if (repoUserDownvoted && scoreChange === -1) {
+            chai.expect(repo.repo_score).to.equal(repo.repo_score - 1);
         }
+
     });
 });
 
