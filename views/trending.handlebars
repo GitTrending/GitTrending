@@ -23,7 +23,7 @@
 				{{#if data}}
 					<h2 class="pt5 mt4 mb3 f1 fw3 self-center black code">{{topic}} Repos</h2>
 				{{else}}
-				<h3 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noTopic}}</h3>
+				<h3 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noTopic}} {{duplicate}}</h3>
 				{{/if}}
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 			</div>
 			<div class="dtc v-mid pl3 pr3">
 				<h1 class="code f6 f5-ns fw6 lh-title black mv0">Description: {{this.repo_description}}</h1>
-				<h2 class="code f6 fw4 mt0 mb0 black-60"><a href="{{this.repo_link}}">{{this.repo_link}}</a></h2>
+				<h2 class="code f6 fw4 mt0 mb0 black-60"><a href='{{ this.repo_link}}'>{{this.repo_link}}</a></h2>
 			</div>
 			<div class="flex flex-column">
 		        <form class='voting' action="/trending/{{../topic}}/{{this.id}}?vote=up" method="POST">
