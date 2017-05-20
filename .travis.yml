@@ -9,4 +9,3 @@ services:
   
 before_install:
  - mysql -e 'CREATE DATABASE gittrendingtest_db;'
- - sequelize db:migrate
