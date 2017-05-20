@@ -86,7 +86,7 @@ describe('Add new repo to existing topic', function() {
             repos: topics[0].repos
         }
 
-        // Check topic page renders successfully after adding repo.
+        // Check trending page renders successfully after adding repo.
         chai.request('http://localhost:8080')
         .get('/trending', hbsObject)
         .end(function(err, res) {
