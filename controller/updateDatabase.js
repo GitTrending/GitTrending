@@ -11,28 +11,53 @@ String.prototype.capitalize = function() {
 const addTopic = (req, res) => {
     const addedTopic = req.body.addTopic;
     return Promise.all([
-        db.topic.create({
-            userId: 1,
-            topic_name: addedTopic,
+        db.topic.findOne({
+        where: {
+            topic_name: addedTopic
+        }
         }),
         db.user.findOne({
             where: {
                 id: req.user.id
             }
         })
-    ]).then(data => {
-        const hbsObject = {
-            topic: addedTopic.capitalize(),
-            message1: "Oh no! There aren't any repos yet!",
-            message2: "Want to add another repo?",
-            name: data[1].displayName
-        };
-        res.render('addTopic', hbsObject)
-    }).catch(err => {
-        `err is ${err}`
-    });
-    // Add new topic to database and render page.
-
+    ])
+    .then(data=>{
+        console.log(`DUPLICATE: ${JSON.stringify(data)}`);
+        if (data[0].topic_name){
+            // that topic already exists
+            const hbsObject = {
+                data: false,
+                name: data[1].displayName,
+                duplicate: `${addedTopic} already exsists! Try searching for it above!`
+            }
+            res.render('trending', hbsObject);
+        } else {
+            console.log('THIS IS RUNNING GAL');
+            // no such topic, creating one .
+            return Promise.all([
+                db.topic.create({
+                    userId: 1,
+                    topic_name: addedTopic,
+                }),
+                db.user.findOne({
+                    where: {
+                        id: req.user.id
+                    }
+                })
+            ]).then(data => {
+                const hbsObject = {
+                    topic: addedTopic.capitalize(),
+                    message1: "Oh no! There aren't any repos yet!",
+                    message2: "Want to add another repo?",
+                    name: data[1].displayName
+                };
+                res.render('addTopic', hbsObject)
+            }).catch(err => {
+                `err is ${err}`
+            });
+        }
+    })
 };
 
 // users can add a repo
