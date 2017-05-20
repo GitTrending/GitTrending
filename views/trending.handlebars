@@ -23,7 +23,7 @@
 				{{#if data}}
 					<h2 class="pt5 mt4 mb3 f1 fw3 self-center black code">{{topic}} Repos</h2>
 				{{else}}
-				<h3 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noTopic}} {{duplicate}}</h3>
+				<h2 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noTopic}} {{duplicate}}</h2>
 				{{/if}}
 			</div>
 		</div>
@@ -31,7 +31,7 @@
 <div class="flex flex-row justify-around">
 	<main class="mw6 center" id="parent-row">
 	{{#unless repos}}
-		<h3 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noRepos}}</h3>
+		<h3 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noRepos}} {{addTopic}}</h3>
 	{{/unless}}
 
 		{{#each repos}}
