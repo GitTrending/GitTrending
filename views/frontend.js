@@ -4,7 +4,7 @@ $('.addAnothaRepo').on('click', function(event) {
     if (!regEx.test(link)) {
         event.preventDefault();
         vex.dialog.open({
-           message: 'Sorry! You need to enter a vaild URL! (ツ)_/¯ ex:http://google.com'
+           message: 'Sorry! You need to enter a vaild URL! Like this (ツ)_/¯ http://google.com'
         })
     }
 });

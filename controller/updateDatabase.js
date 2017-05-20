@@ -53,6 +53,7 @@ const addTopic = (req, res) => {
             const hbsObject = {
                 data: false,
                 name: data[1].displayName,
+                ohSnap: `Oh, snap...`,
                 duplicate: `${addedTopic} already exsists! Try searching for it above!`
             }
             res.render('trending', hbsObject);
