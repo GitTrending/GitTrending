@@ -38,7 +38,8 @@
     "sequelize-cli": "^2.7.0",
     "serve-favicon": "^2.4.3",
     "tachyons": "^4.7.2",
-    "util": "^0.10.3"
+    "util": "^0.10.3",
+    "vex-js": "^3.1.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
