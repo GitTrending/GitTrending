@@ -5,6 +5,8 @@ node_js:
 
 services:
   - mysql
+  - sequelize
   
 before_install:
  - mysql -e 'CREATE DATABASE gittrendingtest_db;'
+ - sequelize db:migrate
