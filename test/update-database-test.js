@@ -91,7 +91,7 @@ describe('Add new repo to existing topic', function() {
         .get('/trending', hbsObject)
         .end(function(err, res) {
             chai.expect(res).to.have.status(200);
-            chai.expect(res.repos[0].repo_name).to.equal("Progressive web apps");
+            chai.expect(res.repos.repo_name).to.equal("Progressive web apps");
         });
     });
 });
