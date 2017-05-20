@@ -142,7 +142,7 @@ describe('Get repos for associated topic when searched', function() {
         .get('/trending', hbsObject)
         .end(function(err, res) {
             chai.expect(res).to.have.status(200);
-            chai.expect(res.repos[0].repo_name).to.equal("React");
+            chai.expect(res.repos[0].repo_name).to.equal('React');
         });
 
     })
