@@ -102,7 +102,7 @@ const queryRepoTopic = (req, res) => {
             const hbsObject = {
                 data: false,
                 topic: topic.capitalize(),
-                noTopic: `Oh snap...`,
+                noTopic: `Oh, snap...`,
                 addTopic: `${topic.capitalize()} doesn't exsist! Why not add it?`,
                 name: data[1].displayName
             }
