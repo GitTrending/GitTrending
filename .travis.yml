@@ -1,3 +1,10 @@
 language: node_js
+
 node_js:
 - "7"
+
+services:
+  - mysql
+  
+before_install:
+ - mysql -e 'CREATE DATABASE gittrendingtest_db;'
