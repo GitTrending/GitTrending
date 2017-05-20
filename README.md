@@ -13,14 +13,14 @@ Check it out here in heroku: [https://arcane-crag-98377.herokuapp.com/](https://
 We are starting to integrate with [travis](https://travis-ci.org/)
 too, so we can keep track of things that might break our app!
 
-** Add configuration files
+## Add configuration files
 
 To add configuration files that's been gitignored:
 
 1. Go to `config` directory, and put in the relavent info (password, db name) in the `config.json` file. this will allow sequelize to connect with the database
 2. In `config` directory, make an `auth.json` file similar to `auth.example.json` file, with KEY and SECRET sent out. 
 
-** Initialize and migrate data
+## Initialize and migrate data
 
 To populate tables and seed data, run below steps in the root of this repo:
 
