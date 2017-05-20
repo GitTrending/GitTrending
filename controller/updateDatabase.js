@@ -10,16 +10,30 @@ String.prototype.capitalize = function() {
 // Users can add a topic.
 const addTopic = (req, res) => {
     const addedTopic = req.body.addTopic;
-    return db.topic.findOne({
+    return Promise.all([
+        db.topic.findOne({
         where: {
             topic_name: addedTopic
         }
-    })
+        }),
+        db.user.findOne({
+            where: {
+                id: req.user.id
+            }
+        })
+    ])
     .then(data=>{
-        if (data){
+        console.log(`DUPLICATE: ${JSON.stringify(data)}`);
+        if (data[0].topic_name){
             // that topic already exists
-            return Promise.resolve();
+            const hbsObject = {
+                data: false,
+                name: data[1].displayName,
+                duplicate: `${addedTopic} already exsists! Try searching for it above!`
+            }
+            res.render('trending', hbsObject);
         } else {
+            console.log('THIS IS RUNNING GAL');
             // no such topic, creating one .
             return Promise.all([
                 db.topic.create({
