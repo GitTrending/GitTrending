@@ -1,5 +1,5 @@
 /**
- * Testing all controller functions.
+ * Testing all query database functions.
  */
 
 'use strict';
@@ -18,14 +18,14 @@ describe('Render /index route', function() {
         chai.request('http://localhost:8080')
         .get('/')
         .end(function(err, res) {
-            expect(res).to.have.status(200);
+            chai.expect(res).to.have.status(200);
         });
     });
 });
 
 // Check preview page renders with random topic when there's no oauth.
 describe('Get repos for random topic when no oauth', function () {
-    it('exist', function () {
+    it('shall return that the ORM calls exist', function () {
        chai.expect(db.topic.findAll).to.exist;
     });
 
@@ -52,24 +52,21 @@ describe('Get repos for random topic when no oauth', function () {
         chai.request('http://localhost:8080')
         .get('/preview', hbsObject)
         .end(function(err, res) {
-            expect(res).to.have.status(200);
+            chai.expect(res).to.have.status(200);
         });
     });
 });
 
 // Check repos associated with specific topic display when searched.
-// Note: consciously checking for user id, though it's part of query repo.
-// Keeping tests simpler for now and may add user check in later test revisions.
+// Note: not checking user ids in these tests.
 describe('Get repos for associated topic when searched', function() {
     
     // Test behavior where topic does not exist.
     it ('shall find topic does not exist', async function () {
 
-        const searchTopic = 'New topic';
-
-        const topic = await db.topic.findOne({
+        const topics = await db.topic.findOne({
             where: {
-                topic_name: searchTopic
+                topic_name: 'New topic'
             },
             include: [db.repo],
             order: [
@@ -81,25 +78,22 @@ describe('Get repos for associated topic when searched', function() {
           noTopic: "Topic doesn't exist! Why not add it?"  
         };
 
-        chai.expect(topic).to.equal(null);
+        chai.expect(topics).to.equal(null);
 
         chai.request('http://localhost:8080')
         .get('/trending', hbsObject)
         .end(function(err, res) {
-            expect(res).to.have.status(200);
-            expect(res.noTopic).to.equal("Topic doesn't exist! Why not add it?");
+            chai.expect(res).to.have.status(200);
+            chai.expect(res.noTopic).to.equal("Topic doesn't exist! Why not add it?");
         });
     });
 
     // Test behavior where topic exists but no repos.
     it('shall find topic that exists with no repos', async function() {
 
-        // Add search topic to seed data in testing db for this to work.
-        const searchTopic = 'JavaScript';
-
-        const topic = await db.topic.findOne({
+        const topics = await db.topic.findOne({
             where: {
-                topic_name: searchTopic
+                topic_name: 'JavaScript'
             },
             include: [db.repo],
             order: [
@@ -107,30 +101,28 @@ describe('Get repos for associated topic when searched', function() {
             ]
         });
 
-        chai.expect(topic.topic_name).to.equal('JavaScript');
-        chai.expect(topic.repos).to.equal(null);
-
         const hbsObject = {
-            topic: searchTopic,
+            topic: 'JavaScript',
             noRepos: "There aren't any repos yet..."
         };
+
+        chai.expect(topics.topic_name).to.equal('JavaScript');
+        chai.expect(topics.repos[0]).to.equal(undefined);
 
         chai.request('http://localhost:8080')
         .get('/trending', hbsObject)
         .end(function(err, res) {
-            expect(res).to.have.status(200);
-            expect(res.noRepos).to.equal("There aren't any repos yet...");
+            chai.expect(res).to.have.status(200);
+            chai.expect(res.noRepos).to.equal("There aren't any repos yet...");
         });
     });
 
     // Test behavior where topic exists with repos.
     it('shall find topic and repos', async function() {
 
-        const searchTopic = 'React';
-
-        const topic = await db.topic.findOne({
+        const topics = await db.topic.findOne({
             where: {
-                topic_name: searchTopic
+                topic_name: 'React'
             },
             include: [db.repo],
             order: [
@@ -139,18 +131,18 @@ describe('Get repos for associated topic when searched', function() {
         });
 
         const hbsObject = {
-            topic: searchTopic,
-            repo: topic[0].repos
+            topic: 'React',
+            repos: topics.repos
         };
 
-        chai.expect(topic[0].topic_name).to.equal('React');
-        chai.expect(topic[0].repo[0].repo_name).to.equal('React');
+        chai.expect(topics.topic_name).to.equal('React');
+        chai.expect(topics.repos[0].repo_name).to.equal('React');
 
         chai.request('http://localhost:8080')
         .get('/trending', hbsObject)
         .end(function(err, res) {
-            expect(res).to.have.status(200);
-            expect(res.repo[0].repo_name).to.equal("React");
+            chai.expect(res).to.have.status(200);
+            chai.expect(res.repos[0].repo_name).to.equal("React");
         });
 
     })
