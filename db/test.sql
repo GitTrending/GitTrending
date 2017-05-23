@@ -1,3 +1,5 @@
+DROP DATABASE gittrendingtest_db;
+
 CREATE DATABASE gittrendingtest_db;
 
 USE gittrendingtest_db;
