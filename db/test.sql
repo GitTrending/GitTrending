@@ -73,7 +73,8 @@ CREATE TABLE `repos` (
 --
 /*!40000 ALTER TABLE `repos` DISABLE KEYS */;
 INSERT INTO `repos` VALUES (1,'React','A declarative, efficient, and flexible JavaScript library for building user interfaces','https://github.com/facebook/react',1,0),
-(2,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0);
+(2,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),
+(3,'progressive web apps', 'A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0);
 /*!40000 ALTER TABLE `repos` ENABLE KEYS */;
 
 --
