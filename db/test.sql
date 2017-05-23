@@ -46,7 +46,7 @@ CREATE TABLE `topics` (
 -- Dumping data for table `topics`
 --
 /*!40000 ALTER TABLE `topics` DISABLE KEYS */;
-INSERT INTO `topics` VALUES (1,'React',1),(2,'JavaScript',1);
+INSERT INTO `topics` VALUES (1,'React',1),(2,'JavaScript',1),(3,'progressive web apps',1);
 /*!40000 ALTER TABLE `topics` ENABLE KEYS */;
 
 --
