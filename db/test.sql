@@ -1,3 +1,7 @@
+CREATE DATABASE gittrendingtest_db;
+
+USE gittrendingtest_db;
+
 --
 -- Table structure for table `users`
 --
