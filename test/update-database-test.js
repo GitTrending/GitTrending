@@ -37,7 +37,7 @@ describe('Add new topic and render add topic page', function () {
         }
 
         // Check if topic added successfully and capitalization working.
-        chai.expect(hbsObject.topic).to.equal('Progressive web apps');
+        chai.expect(hbsObject.topic).to.equal('progressive web apps');
 
         // Check add topic page renders.
         chai.request('http://localhost:8080')
