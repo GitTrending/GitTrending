@@ -10,5 +10,4 @@ services:
   - mysql
   
 before_install:
- - mysql -e 'CREATE DATABASE gittrendingtest_db;'
  - mysql < ./db/test.sql
