@@ -1,4 +1,6 @@
 CREATE DATABASE gittrendingtest_db;
+
+USE gittrendingtest_db;
 --
 -- Dumping data for table `keywords`
 --
