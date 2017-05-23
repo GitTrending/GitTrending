@@ -5,7 +5,6 @@ USE gittrendingtest_db;
 --
 -- Table structure for table `users`
 --
-
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -23,7 +22,6 @@ CREATE TABLE `users` (
 --
 -- Dumping data for table `users`
 --
-
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES (1,'John.Doe',NULL,NULL,NULL,NULL),(2,'Jane.Doe',NULL,NULL,NULL,NULL),(3,'1561825','Meggin Kearney','Meggin','https://github.com/Meggin','meggin.kearney@gmail.com');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
@@ -31,7 +29,6 @@ INSERT INTO `users` VALUES (1,'John.Doe',NULL,NULL,NULL,NULL),(2,'Jane.Doe',NULL
 --
 -- Table structure for table `topics`
 --
-
 DROP TABLE IF EXISTS `topics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -55,7 +52,6 @@ INSERT INTO `topics` VALUES (1,'React',1),(2,'JavaScript',1),(3,'progressive web
 --
 -- Table structure for table `repos`
 --
-
 DROP TABLE IF EXISTS `repos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -82,7 +78,6 @@ INSERT INTO `repos` VALUES (1,'React','A declarative, efficient, and flexible Ja
 --
 -- Table structure for table `repos_topics`
 --
-
 DROP TABLE IF EXISTS `repos_topics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -101,7 +96,6 @@ CREATE TABLE `repos_topics` (
 --
 -- Dumping data for table `repos_topics`
 --
-
 /*!40000 ALTER TABLE `repos_topics` DISABLE KEYS */;
 INSERT INTO `repos_topics` VALUES (1,1,1);
 /*!40000 ALTER TABLE `repos_topics` ENABLE KEYS */;
@@ -109,7 +103,6 @@ INSERT INTO `repos_topics` VALUES (1,1,1);
 --
 -- Table structure for table `users_repos_favorite`
 --
-
 DROP TABLE IF EXISTS `users_repos_favorite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -130,7 +123,6 @@ CREATE TABLE `users_repos_favorite` (
 --
 -- Dumping data for table `users_repos_favorite`
 --
-
 /*!40000 ALTER TABLE `users_repos_favorite` DISABLE KEYS */;
 INSERT INTO `users_repos_favorite` VALUES (1,1,1,1,0),(2,1,2,0,1);
 /*!40000 ALTER TABLE `users_repos_favorite` ENABLE KEYS */;
@@ -138,7 +130,6 @@ INSERT INTO `users_repos_favorite` VALUES (1,1,1,1,0),(2,1,2,0,1);
 --
 -- Table structure for table `keywords`
 --
-
 DROP TABLE IF EXISTS `keywords`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -180,7 +171,6 @@ CREATE TABLE `keywords_repos` (
 --
 -- Dumping data for table `keywords_repos`
 --
-
 /*!40000 ALTER TABLE `keywords_repos` DISABLE KEYS */;
 INSERT INTO `keywords_repos` VALUES (1,1,1);
 /*!40000 ALTER TABLE `keywords_repos` ENABLE KEYS */;
@@ -205,19 +195,6 @@ CREATE TABLE `keywords_topics` (
 --
 -- Dumping data for table `keywords_topics`
 --
-
 /*!40000 ALTER TABLE `keywords_topics` DISABLE KEYS */;
 INSERT INTO `keywords_topics` VALUES (1,1,1);
 /*!40000 ALTER TABLE `keywords_topics` ENABLE KEYS */;
-
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2017-05-23 13:12:39
