@@ -1,0 +1,60 @@
+<nav class="fixed db dt-l w-100 border-box pa3 ph4-l" id="nav">
+<div class="flex flex-row">
+  <a class="f4 washed-green db dtc-l v-mid link dim mt1 mr3 mb2 mb0-l code" href="/" title="Home">GitLists 
+  </a>
+    <a class="link dark-gray f6 f5-l dib mr4-l" href="#" title="Home">
+    <form action="/noAuth" method="POST" class="flex justify-around">
+        <input type="text" class='db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2' id="searchtopic" name="searchTopic" placeholder="Search for a topic" required>
+        <button class="black" type="submit" id="search-button"><img src='/../public/assets/css/images/searchThis.svg'></button>
+    </form>
+    </a>
+</div>
+  <a class="washed-green db dtc-l v-mid link dim w-80 w-25-l tr tl-r mb2 mb0-l code" href="/" title="Home"><i class="em em-wave"></i> Hi, friend! 
+  </a>
+  <a class="washed-green db dtc-l v-mid link dim tr tl-r mb2 mb0-l code" href="/">
+    <i class="em em-wave">
+      <img src="/../public/assets/css/images/logout.svg" />
+    </i>
+  </a>
+</nav>
+
+<div class='flex flex-column justify-center items-center'>
+  <div class="flex justify-around">
+    <div class='flex-row flex-wrap'>
+      {{#if data}}
+        <h2 class="pt5 mt4 mb3 f1 fw3 self-center black code">{{topic}} Repos</h2>
+      {{else}}
+      <h2 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noTopic}}
+      {{ohSnap}}</h2>
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+
+<div class="flex flex-column justify-center">
+  <main class="mw6 center">
+  {{#unless repos}}
+    <h3 class="pt5 mt4 mb3 fw3 self-center black code"'>{{noRepos}} {{addTopic}} {{duplicate}}</h3>
+  {{/unless}}
+
+    {{#each repos}}
+      <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
+      <div class="dtc w2 w3-ns v-mid">
+        <img class="repo-image" src="/../public/assets/css/images/repos.svg" class="ba b--black-10 db br-100 w2 w3-ns h2 h3-ns"/>
+      </div>
+      <div class="dtc v-mid pl3 pr3">
+        <h1 class="code f6 f5-ns fw6 lh-title black mv0">Description: {{this.repo_description}}</h1>
+        <h2 class="code f6 fw4 mt0 mb0 black-60"><a href='{{ this.repo_link}}' target="_blank">{{this.repo_link}}</a></h2>
+      </div>
+    </article>
+      {{/each}}
+  </main>   
+    {{#unless repos}}
+    <h4 class="black pt4 code">
+      {{addRepoMessage}}
+      {{addTopicMessage}}
+      {{{login}}}
+    </h4>
+  {{/unless}}
+</div>
