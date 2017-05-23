@@ -46,7 +46,7 @@ CREATE TABLE `topics` (
 -- Dumping data for table `topics`
 --
 /*!40000 ALTER TABLE `topics` DISABLE KEYS */;
-INSERT INTO `topics` VALUES (1,'React',1),(2,'JavaScript',1),(3,'progressive web apps',1),(4,'progressive web apps',1),(5,'progressive web apps',1),(6,'progressive web apps',1),(7,'progressive web apps',1),(8,'progressive web apps',1),(9,'progressive web apps',1),(10,'progressive web apps',1),(11,'progressive web apps',1),(12,'progressive web apps',1),(13,'progressive web apps',1);
+INSERT INTO `topics` VALUES (1,'React',1),(2,'JavaScript',1);
 /*!40000 ALTER TABLE `topics` ENABLE KEYS */;
 
 --
@@ -72,7 +72,7 @@ CREATE TABLE `repos` (
 -- Dumping data for table `repos`
 --
 /*!40000 ALTER TABLE `repos` DISABLE KEYS */;
-INSERT INTO `repos` VALUES (1,'React','A declarative, efficient, and flexible JavaScript library for building user interfaces','https://github.com/facebook/react',1,1),(2,'Another React','Another React','https://github.com/facebook/react',1,0),(3,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(4,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(5,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(6,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(7,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(8,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(9,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(10,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(11,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(12,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0),(13,'progressive web apps','A selection of Progressive Web Apps','https://github.com/pwarocks/pwa.rocks',1,0);
+INSERT INTO `repos` VALUES (1,'React','A declarative, efficient, and flexible JavaScript library for building user interfaces','https://github.com/facebook/react',1,1),(2,'Another React','Another React','https://github.com/facebook/react',1,0);
 /*!40000 ALTER TABLE `repos` ENABLE KEYS */;
 
 --
