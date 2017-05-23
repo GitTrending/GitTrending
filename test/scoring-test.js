@@ -55,7 +55,7 @@ describe('Update repo score based on user input and display score', function() {
 
             // Upvote repo score.
             await db.repo.update({
-                repo_score: repo_score + scoreChange
+                repo_score: repoScore + scoreChange
 
             }, {
                 where: {
@@ -64,7 +64,7 @@ describe('Update repo score based on user input and display score', function() {
             });
 
             // Check repo score updated correctly.
-            chai.expect(repo.repo_score).to.equal(repo.repo_score + 1);
+            chai.expect(repo.repo_score).to.equal(1);
 
             // Reset vote booleans.
             await db.users_repos_favorite.update({
@@ -116,7 +116,7 @@ describe('Update repo score based on user input and display score', function() {
             chai.expect(repoUserDownvoted).to.equal(false);
 
             await db.repo.update({
-                repo_score: repo_score + scoreChange
+                repo_score: repoScore + scoreChange
 
             }, {
                 where: {
@@ -125,7 +125,7 @@ describe('Update repo score based on user input and display score', function() {
             });
 
             // Check repo score updated correctly.
-            chai.expect(repo.repo_score).to.equal(repo.repo_score - 1);
+            chai.expect(repo.repo_score).to.equal(0);
 
             await db.users_repos_favorite.update({
                 repo_upvoted: false,
