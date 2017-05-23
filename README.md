@@ -1,4 +1,5 @@
 # GitTrending
+[![Build Status](https://travis-ci.org/GitTrending/GitTrending.svg?branch=master)](https://travis-ci.org/GitTrending/GitTrending)
 
 This is an app the helps us organize GitHub repos.
 
