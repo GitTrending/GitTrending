@@ -9,5 +9,6 @@ router
 	.get('/index', query.renderIndex)
 	.get('/', isAuthenticated, query.displayRepos)
 	.get('/preview', query.noAuthdisplayRepos)
+	.post('/noAuth', query.queryNoAuthRepoTopic)
 
 module.exports = router;
