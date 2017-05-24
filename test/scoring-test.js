@@ -12,8 +12,6 @@ const db = require('../models');
 // For testing http tasks.
 chai.use(chaiHttp);
 
-const repoScore = 0;
-
 // Test repo scoring.
 describe('Update repo score based on user input and display score', function() {
     
@@ -40,6 +38,8 @@ describe('Update repo score based on user input and display score', function() {
 
         // Set to vote boolean value.
         const repoUserUpvoted = userReposFavorite.repo_upvoted;
+
+        const repoScore = 0;
         
         // Purposefully setting upvote score change to test results.
         const scoreChange = 1;
@@ -106,6 +106,8 @@ describe('Update repo score based on user input and display score', function() {
         // Set to vote boolean value.
         const repoUserDownvoted = userReposFavorite.repo_downvoted;
 
+        const repoScore = 0;
+
         // Purposefully setting upvote score change to test results.
         const scoreChange = -1;
 
@@ -125,7 +127,7 @@ describe('Update repo score based on user input and display score', function() {
             });
 
             // Check repo score updated correctly.
-            chai.expect(repo.repo_score).to.equal(0);
+            chai.expect(repo.repo_score).to.equal(-1);
 
             await db.users_repos_favorite.update({
                 repo_upvoted: false,

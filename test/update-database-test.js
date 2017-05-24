@@ -91,14 +91,10 @@ describe('Add new repo to existing topic', function() {
         }
 
         // Check trending page renders successfully after adding repo.
-        // This test keeps causing the Travis build to fail.
-        // Presumably this is due to weird schema inconsistencies.
-        // Disabled page load test, but still checking for repo name.
         chai.request('http://localhost:8080')
         .get('/trending', hbsObject)
         .end(function(err, res) {
-            //chai.expect(res).to.have.status(200);
-            chai.expect(res.repos.repo_name).to.equal("Progressive web apps");
+            chai.expect(res).to.have.status(200);
         });
     });
 });
