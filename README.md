@@ -1,18 +1,7 @@
 # GitTrending
 [![Build Status](https://travis-ci.org/GitTrending/GitTrending.svg?branch=master)](https://travis-ci.org/GitTrending/GitTrending)
 
-This is an app the helps us organize GitHub repos.
-
-Already in GitHub, people are manually creating lists in GitHub.
-We wanted to create a tool to be able to do this quicker,
-in a collaborative way, with better validation through scoring.
-
-Note, the actual app is called GitLists (we own that GitHub repo name too).
-
-Check it out here in heroku: [https://arcane-crag-98377.herokuapp.com/](https://arcane-crag-98377.herokuapp.com/)
-
-We are starting to integrate with [travis](https://travis-ci.org/)
-too, so we can keep track of things that might break our app!
+People are already manually creating lists in GitHub. We've created a tool to make this process more efficient, more collaborative, and with better validation through scoring.
 
 ## Add configuration files
 
