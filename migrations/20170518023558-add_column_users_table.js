@@ -2,41 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return [
-      queryInterface.addColumn(
-        'users',
-        'displayName',
-        {
-          type: Sequelize.STRING,
-          allowNull: true
-        }
-      ), 
-      queryInterface.addColumn(
-        'users',
-        'username',
-        {
-          type: Sequelize.STRING,
-          allowNull: true
-        }
-      ), 
-      queryInterface.addColumn(
-        'users',
-        'profileUrl',
-        {
-          type: Sequelize.STRING,
-          allowNull: true
-        }
-      ),
-      queryInterface.addColumn(
-        'users',
-        'email',
-        {
-          type: Sequelize.STRING,
-          allowNull: true
-        }
-      )
-    ]
-
+    return Promise.resolve();
   },
 
   down: function (queryInterface, Sequelize) {
