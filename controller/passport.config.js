@@ -13,7 +13,7 @@ const authConfig = require('../config/auth.json');
 //   profile), and invoke a callback with a user object.
 let callBackURL, clientID, clientSecret;
 if (process.env.NODE_ENV === 'production') {
-  callBackURL = `https://arcane-crag-98377.herokuapp.com/auth/github/callback`;
+  callBackURL = `https://radiant-river-28824.herokuapp.com/auth/github/callback`;
   clientID = `1cbf8693ea83c34c201c`;
   clientSecret = `345588a79215a59a8fc3d5f6a570a98c2ee2f5cd`;
   
