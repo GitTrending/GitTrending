@@ -2,12 +2,8 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.removeColumn(
-      'repos',
-      'repo_img'
-    )
+    return Promise.resolve();
   },
-
   down: function (queryInterface, Sequelize) {
     return queryInterface.addColumn(
       'repos',
