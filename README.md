@@ -2,14 +2,37 @@
 
 Discover, contribute to, or glean inspiration from crowdsourced repos. Login to up/down vote repos, add topics, and/or add repositories. Or simply browse repos & topics without logging in. GitLists has made finding repositories more efficient, more collaborative. Help make this site even more helpful by voting repos up or down. 
 
-#### Add configuration files
+## Front End technologies/frameworks/libraries:
+* HTML5/CSS3/Javascript (ES6)
+* handlebars.js
+* tachyons.io
+* flexbox
+* vex-js
+
+## Back end technologies/frameworks/libraries:
+* MySQL
+* sequelize & sequelize-cli
+* GitHub API
+* OAuth
+* Passport 
+* Bluebird/async await
+* Express
+* Node
+
+## Testing frameworks:
+* Mocha
+* Chai
+* Chai http
+* Test DB
+
+### Add configuration files
 
 To add configuration files that's been gitignored:
 
 1. Go to `config` directory, and put in the relavent info (password, db name) in the `config.json` file. this will allow sequelize to connect with the database
 2. In `config` directory, make an `auth.json` file similar to `auth.example.json` file, with KEY and SECRET sent out. 
 
-#### Initialize and migrate data
+### Initialize and migrate data
 
 To populate tables and seed data, run below steps in the root of this repo:
 
