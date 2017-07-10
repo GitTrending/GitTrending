@@ -1,16 +1,15 @@
 # GitTrending
-[![Build Status](https://travis-ci.org/GitTrending/GitTrending.svg?branch=master)](https://travis-ci.org/GitTrending/GitTrending)
 
-People are already manually creating lists in GitHub. We've created a tool to make this process more efficient, more collaborative, and with better validation through scoring.
+Discover, contribute to, or glean inspiration from crowdsourced repos. Login to up/down vote repos, add topics, and/or add repositories. Or simply browse repos & topics without logging in. GitLists has made finding repositories more efficient, more collaborative. Help make this site even more helpful by voting repos up or down. 
 
-## Add configuration files
+#### Add configuration files
 
 To add configuration files that's been gitignored:
 
 1. Go to `config` directory, and put in the relavent info (password, db name) in the `config.json` file. this will allow sequelize to connect with the database
 2. In `config` directory, make an `auth.json` file similar to `auth.example.json` file, with KEY and SECRET sent out. 
 
-## Initialize and migrate data
+#### Initialize and migrate data
 
 To populate tables and seed data, run below steps in the root of this repo:
 
